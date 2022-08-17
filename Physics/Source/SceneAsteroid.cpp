@@ -728,7 +728,8 @@ void SceneAsteroid::Update(double dt)
 				GameObject* go = (GameObject*)*it;
 				if (go->active)
 				{
-					go->pos += go->vel * dt * m_speed;
+					if (go->type != GameObject::GO_BLACKHOLE)
+						go->pos += go->vel * dt * m_speed;
 					//Exercise 12: handle collision between GO_SHIP and GO_ASTEROID using simple distance-based check
 					if (go->type == GameObject::GO_ASTEROID)
 					{
