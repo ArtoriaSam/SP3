@@ -114,6 +114,18 @@ void SceneBase::Init()
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//calibri.tga");
 	meshList[GEO_TEXT]->material.kAmbient.Set(1, 0, 0);
+	meshList[GEO_PLAYER] = MeshBuilder::GenerateQuad("player", Color(1, 1, 1), 20.f);
+	meshList[GEO_PLAYER]->textureID = LoadTGA("Image//gunman.tga");
+	meshList[GEO_GOBLIN] = MeshBuilder::GenerateQuad("goblin", Color(1, 1, 1), 2.f);
+	meshList[GEO_GOBLIN]->textureID = LoadTGA("Image//goblin.tga");
+	meshList[GEO_WOLF] = MeshBuilder::GenerateQuad("wolf", Color(1, 1, 1), 2.f);
+	meshList[GEO_WOLF]->textureID = LoadTGA("Image//wolf.tga");
+	meshList[GEO_BEAR] = MeshBuilder::GenerateQuad("bear", Color(1, 1, 1), 2.f);
+	meshList[GEO_BEAR]->textureID = LoadTGA("Image//bear.tga");
+	meshList[GEO_HARPY] = MeshBuilder::GenerateQuad("harpy", Color(1, 1, 1), 2.f);
+	meshList[GEO_HARPY]->textureID = LoadTGA("Image//harpy.tga");
+	meshList[GEO_FEATHER] = MeshBuilder::GenerateQuad("feather", Color(1, 1, 1), 2.f);
+	meshList[GEO_FEATHER]->textureID = LoadTGA("Image//feather.tga");
 
 	bLightEnabled = false;
 }

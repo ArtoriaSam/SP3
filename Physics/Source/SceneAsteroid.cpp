@@ -181,59 +181,59 @@ void SceneAsteroid::Update(double dt)
 					{
 						//Create
 						GameObject* go = FetchGO();
-						if (wave % 10 == 0 && (i + 1) % 10 == 0)
-						{
-							go->type = GameObject::GO_BLACKHOLE;
-						}
-						else if (wave % 5 == 0 && (i + 1) % 5 == 0)
-						{
-							go->type = GameObject::GO_WHITEHOLE;
-						}
-						else
-							go->type = GameObject::GO_ASTEROID;
+						//if (wave % 10 == 0 && (i + 1) % 10 == 0)
+						//{
+						//	go->type = GameObject::GO_BLACKHOLE;
+						//}
+						//else if (wave % 5 == 0 && (i + 1) % 5 == 0)
+						//{
+						//	go->type = GameObject::GO_WHITEHOLE;
+						//}
+						//else
+						//	go->type = GameObject::GO_ASTEROID;
 						int temppos = rand() % 4;
-						int tempscale = 0;
-						if (go->type == GameObject::GO_ASTEROID)
-							tempscale = rand() % maxsize + minsize;
-						else
-							tempscale = rand() % 3 + 1;
+						//int tempscale = 0;
+						//if (go->type == GameObject::GO_ASTEROID)
+						//	tempscale = rand() % maxsize + minsize;
+						//else
+						//	tempscale = rand() % 3 + 1;
 						if (temppos == 1)
 						{
 							go->pos.Set(Math::RandFloatMinMax(-bounds + (m_player->pos.x - (m_worldWidth / 2)), 0 + (m_player->pos.x - (m_worldWidth / 2))), Math::RandFloatMinMax(-bounds + (m_player->pos.y - (m_worldHeight / 2)), m_worldHeight + bounds + (m_player->pos.y - (m_worldHeight / 2))), go->pos.z);
-							go->vel.Set(Math::RandFloatMinMax(5, 20), Math::RandFloatMinMax(-20, 20), 0);
+							//go->vel.Set(Math::RandFloatMinMax(5, 20), Math::RandFloatMinMax(-20, 20), 0);
 						}
 						else if (temppos == 2)
 						{
 							go->pos.Set(Math::RandFloatMinMax(-bounds + (m_player->pos.x - (m_worldWidth / 2)), m_worldWidth + bounds + (m_player->pos.x - (m_worldWidth / 2))), Math::RandFloatMinMax(m_worldHeight + (m_player->pos.y - (m_worldHeight / 2)), m_worldHeight + bounds + (m_player->pos.y - (m_worldHeight / 2))), go->pos.z);
-							go->vel.Set(Math::RandFloatMinMax(-20, 20), Math::RandFloatMinMax(-5, -20), 0);
+							//go->vel.Set(Math::RandFloatMinMax(-20, 20), Math::RandFloatMinMax(-5, -20), 0);
 						}
 						else if (temppos == 3)
 						{
 							go->pos.Set(Math::RandFloatMinMax(m_worldWidth + (m_player->pos.x - (m_worldWidth / 2)), m_worldWidth + bounds + (m_player->pos.x - (m_worldWidth / 2))), Math::RandFloatMinMax(-bounds + (m_player->pos.y - (m_worldHeight / 2)), m_worldHeight + bounds + (m_player->pos.y - (m_worldHeight / 2))), go->pos.z);
-							go->vel.Set(Math::RandFloatMinMax(-5, -20), Math::RandFloatMinMax(-20, 20), 0);
+							//go->vel.Set(Math::RandFloatMinMax(-5, -20), Math::RandFloatMinMax(-20, 20), 0);
 						}
 						else
 						{
 							go->pos.Set(Math::RandFloatMinMax(-bounds + (m_player->pos.x - (m_worldWidth / 2)), m_worldWidth + bounds + (m_player->pos.x - (m_worldWidth / 2))), Math::RandFloatMinMax(-bounds + (m_player->pos.y - (m_worldHeight / 2)), 0 + (m_player->pos.y - (m_worldHeight / 2))), go->pos.z);
-							go->vel.Set(Math::RandFloatMinMax(-20, 20), Math::RandFloatMinMax(5, 20), 0);
+							//go->vel.Set(Math::RandFloatMinMax(-20, 20), Math::RandFloatMinMax(5, 20), 0);
 						}
-						go->scale.Set(tempscale, tempscale, 1);
-						if (go->pos.x < 0.0f && go->vel.x < 0.0f)
-						{
-							go->vel.x *= -1;
-						}
-						else if (go->pos.x > 0.0f && go->vel.x > 0.0f)
-						{
-							go->vel.x *= -1;
-						}
-						if (go->pos.y < 0.0f && go->vel.y < 0.0f)
-						{
-							go->vel.y *= -1;
-						}
-						else if (go->pos.y > 0.0f && go->vel.y > 0.0f)
-						{
-							go->vel.y *= -1;
-						}
+						//go->scale.Set(tempscale, tempscale, 1);
+						//if (go->pos.x < 0.0f && go->vel.x < 0.0f)
+						//{
+						//	go->vel.x *= -1;
+						//}
+						//else if (go->pos.x > 0.0f && go->vel.x > 0.0f)
+						//{
+						//	go->vel.x *= -1;
+						//}
+						//if (go->pos.y < 0.0f && go->vel.y < 0.0f)
+						//{
+						//	go->vel.y *= -1;
+						//}
+						//else if (go->pos.y > 0.0f && go->vel.y > 0.0f)
+						//{
+						//	go->vel.y *= -1;
+						//}
 					}
 				}
 			}
@@ -1246,7 +1246,7 @@ void SceneAsteroid::RenderGO(GameObject *go)
 		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
 		modelStack.Rotate(go->angle + 90.f, 0, 0, 1);
 		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
-		RenderMesh(meshList[GEO_SHIP], false);
+		RenderMesh(meshList[GEO_PLAYER], false);
 		modelStack.PopMatrix();
 		//Exercise 17a: render a ship texture or 3D ship model
 		 
@@ -1343,15 +1343,18 @@ void SceneAsteroid::Render()
 		ss << "HP: " << HP << "/" << MaxHP;
 		RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 0, 0), 3, 0, m_worldHeight / 2 + 6);
 		ss.str("");
-		ss << "Score: " << m_score;
+		ss << "Shop points: " << m_tempscore;
 		RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 9);
+		ss.str("");
+		ss << "Score: " << m_score;
+		RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 3, 0, 12);
 		ss.str("");
 		ss << "Bullet type: ";
 		if (bullettype == SINGLE)
 			ss << "Normal";
 		else if (bullettype == BLACKHOLE)
 			ss << "Blackhole";
-		RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 0, 1), 3, 0, 12);
+		RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 0, 1), 3, 0, 15);
 
 		ss.str("");
 		ss << "Wave: " << wave;
