@@ -88,6 +88,7 @@ protected:
 	int passivehealingtime;
 	int passivehealup;
 	bool passivehealing;
+	int multiplier;
 };
 
 #endif

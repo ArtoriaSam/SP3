@@ -114,7 +114,7 @@ void SceneBase::Init()
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//calibri.tga");
 	meshList[GEO_TEXT]->material.kAmbient.Set(1, 0, 0);
-	meshList[GEO_PLAYER] = MeshBuilder::GenerateQuad("player", Color(1, 1, 1), 20.f);
+	meshList[GEO_PLAYER] = MeshBuilder::GenerateQuad("player", Color(1, 1, 1), 2.f);
 	meshList[GEO_PLAYER]->textureID = LoadTGA("Image//gunman.tga");
 	meshList[GEO_GOBLIN] = MeshBuilder::GenerateQuad("goblin", Color(1, 1, 1), 2.f);
 	meshList[GEO_GOBLIN]->textureID = LoadTGA("Image//goblin.tga");

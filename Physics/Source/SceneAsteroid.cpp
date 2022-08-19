@@ -65,6 +65,7 @@ void SceneAsteroid::Init()
 	bulletdmg = 1;
 	minsize = 1;
 	maxsize = 3;
+	multiplier = 0;
 	//Exercise 2c: Construct m_ship, set active, type, scale and pos
 	m_player = new GameObject(GameObject::GO_SHIP);
 	m_player->active = true;
@@ -162,14 +163,276 @@ void SceneAsteroid::Update(double dt)
 			{
 				if (waveclear == true)
 				{
-					if (wave > 1 && wave % 10 == 0)
+					if (wave > 10)
 					{
-						maxsize++;
+						multiplier++;
 					}
-					if (wave > 10 && (wave - 5) % 10 == 0)
+					if (wave == 1 || (wave - 1) % 10 == 0)
 					{
-						maxsize--;
-						minsize++;
+						for (int i = 0; i < 5; i++)
+						{
+							GameObject* go = FetchGO();
+							go->type = GameObject::GO_GLOBIN;
+							go->speed = 0.5 + (multiplier * 0.05);
+							go->hp = 2 * (multiplier * 1.1);
+							go->points = 20 + (multiplier * 5);
+							go->dmg = 1 + (multiplier * 0.5);
+							go->atkspeed = 1.5;
+							go->range = 1;
+
+						}
+					}
+					else if (wave == 2 || (wave - 2) % 10 == 0)
+					{
+						for (int i = 0; i < 6; i++)
+						{
+							GameObject* go = FetchGO();
+							if (i < 4)
+							{
+								go->type = GameObject::GO_GLOBIN;
+								go->speed = 0.5 + (multiplier * 0.05);
+								go->hp = 2 * (multiplier * 1.1);
+								go->points = 20 + (multiplier * 5);
+								go->dmg = 1 + (multiplier * 0.5);
+								go->atkspeed = 1.5;
+								go->range = 1;
+							}
+							else
+							{
+								go->type = GameObject::GO_WOLF;
+								go->speed = 2 + (multiplier * 0.05);
+								go->hp = 4 * (multiplier * 1.1);
+								go->points = 30 + (multiplier * 5);
+								go->dmg = 2 + (multiplier * 0.5);
+								go->atkspeed = 1.5;
+								go->range = 1;
+							}
+						}
+
+					}
+					else if (wave == 3 || (wave - 3) % 10 == 0)
+					{
+						for (int i = 0; i < 10; i++)
+						{
+							GameObject* go = FetchGO();
+							if (i < 6)
+							{
+								go->type = GameObject::GO_GLOBIN;
+								go->speed = 0.5 + (multiplier * 0.05);
+								go->hp = 2 * (multiplier * 1.1);
+								go->points = 20 + (multiplier * 5);
+								go->dmg = 1 + (multiplier * 0.5);
+								go->atkspeed = 1.5;
+								go->range = 1;
+							}
+							else
+							{
+								go->type = GameObject::GO_WOLF;
+								go->speed = 2 + (multiplier * 0.05);
+								go->hp = 4 * (multiplier * 1.1);
+								go->points = 30 + (multiplier * 5);
+								go->dmg = 2 + (multiplier * 0.5);
+								go->atkspeed = 1.5;
+								go->range = 1;
+							}
+						}
+					}
+					else if (wave == 4 || (wave - 4) % 10 == 0)
+					{
+						for (int i = 0; i < 11; i++)
+						{
+							GameObject* go = FetchGO();
+							if (i < 10)
+							{
+								go->type = GameObject::GO_GLOBIN;
+								go->speed = 0.5 + (multiplier * 0.05);
+								go->hp = 2 * (multiplier * 1.1);
+								go->points = 20 + (multiplier * 5);
+								go->dmg = 1 + (multiplier * 0.5);
+								go->atkspeed = 1.5;
+								go->range = 1;
+							}
+							else
+							{
+								go->type = GameObject::GO_HARPY;
+								go->speed = 1 + (multiplier * 0.05);
+								go->hp = 3 * (multiplier * 1.1);
+								go->points = 30 + (multiplier * 5);
+								go->dmg = 2 + (multiplier * 0.5);
+								go->atkspeed = 2;
+								go->range = 1;
+							}
+						}
+					}
+					else if (wave == 5 || (wave - 5) % 10 == 0)
+					{
+						for (int i = 0; i < 11; i++)
+						{
+							GameObject* go = FetchGO();
+							if (i < 10)
+							{
+								go->type = GameObject::GO_GLOBIN;
+								go->speed = 0.5 + (multiplier * 0.05);
+								go->hp = 2 * (multiplier * 1.1);
+								go->points = 20 + (multiplier * 5);
+								go->dmg = 1 + (multiplier * 0.5);
+								go->atkspeed = 1.5;
+								go->range = 1;
+							}
+							else
+							{
+								go->type = GameObject::GO_BEAR;
+								go->speed = 0.5 + (multiplier * 0.05);
+								go->hp = 10 * (multiplier * 1.1);
+								go->points = 50 + (multiplier * 5);
+								go->dmg = 5 + (multiplier * 0.5);
+								go->atkspeed = 1;
+								go->range = 1;
+							}
+						}
+					}
+					else if (wave == 6 || (wave - 6) % 10 == 0)
+					{
+						for (int i = 0; i < 20; i++)
+						{
+							GameObject* go = FetchGO();
+							go->type = GameObject::GO_GLOBIN;
+							go->speed = 0.5 + (multiplier * 0.05);
+							go->hp = 2 * (multiplier * 1.1);
+							go->points = 20 + (multiplier * 5);
+							go->dmg = 1 + (multiplier * 0.5);
+							go->atkspeed = 1.5;
+							go->range = 1;
+							
+						}
+					}
+					else if (wave == 7 || (wave - 7) % 10 == 0)
+					{
+						for (int i = 0; i < 16; i++)
+						{
+							GameObject* go = FetchGO();
+							if (i < 10)
+							{
+								go->type = GameObject::GO_GLOBIN;
+								go->speed = 0.5 + (multiplier * 0.05);
+								go->hp = 2 * (multiplier * 1.1);
+								go->points = 20 + (multiplier * 5);
+								go->dmg = 1 + (multiplier * 0.5);
+								go->atkspeed = 1.5;
+								go->range = 1;
+							}
+							else
+							{
+								go->type = GameObject::GO_WOLF;
+								go->speed = 2 + (multiplier * 0.05);
+								go->hp = 4 * (multiplier * 1.1);
+								go->points = 30 + (multiplier * 5);
+								go->dmg = 2 + (multiplier * 0.5);
+								go->atkspeed = 1.5;
+								go->range = 1;
+							}
+						}
+					}
+					else if (wave == 8 || (wave - 8) % 10 == 0)
+					{
+						for (int i = 0; i < 23; i++)
+						{
+							GameObject* go = FetchGO();
+							if (i < 15)
+							{
+								go->type = GameObject::GO_GLOBIN;
+								go->speed = 0.5 + (multiplier * 0.05);
+								go->hp = 2 * (multiplier * 1.1);
+								go->points = 20 + (multiplier * 5);
+								go->dmg = 1 + (multiplier * 0.5);
+								go->atkspeed = 1.5;
+								go->range = 1;
+							}
+							else
+							{
+								go->type = GameObject::GO_WOLF;
+								go->speed = 2 + (multiplier * 0.05);
+								go->hp = 4 * (multiplier * 1.1);
+								go->points = 30 + (multiplier * 5);
+								go->dmg = 2 + (multiplier * 0.5);
+								go->atkspeed = 1.5;
+								go->range = 1;
+							}
+						}
+					}
+					else if (wave == 9 || (wave - 9) % 10 == 0)
+					{
+						for (int i = 0; i < 33; i++)
+						{
+							GameObject* go = FetchGO();
+							if (i < 30)
+							{
+								go->type = GameObject::GO_GLOBIN;
+								go->speed = 0.5 + (multiplier * 0.05);
+								go->hp = 2 * (multiplier * 1.1);
+								go->points = 20 + (multiplier * 5);
+								go->dmg = 1 + (multiplier * 0.5);
+								go->atkspeed = 1.5;
+								go->range = 1;
+							}
+							else
+							{
+								go->type = GameObject::GO_HARPY;
+								go->speed = 1 + (multiplier * 0.05);
+								go->hp = 3 * (multiplier * 1.1);
+								go->points = 30 + (multiplier * 5);
+								go->dmg = 2 + (multiplier * 0.5);
+								go->atkspeed = 2;
+								go->range = 1;
+							}
+						}
+					}
+					else if (wave == 10 || (wave - 10) % 10 == 0)
+					{
+						for (int i = 0; i < 29; i++)
+						{
+							GameObject* go = FetchGO();
+							if (i < 20)
+							{
+								go->type = GameObject::GO_GLOBIN;
+								go->speed = 0.5 + (multiplier * 0.05);
+								go->hp = 2 * (multiplier * 1.1);
+								go->points = 20 + (multiplier * 5);
+								go->dmg = 1 + (multiplier * 0.5);
+								go->atkspeed = 1.5;
+								go->range = 1;
+							}
+							else if (i > 19 && 1 < 24)
+							{
+								go->type = GameObject::GO_WOLF;
+								go->speed = 2 + (multiplier * 0.05);
+								go->hp = 4 * (multiplier * 1.1);
+								go->points = 30 + (multiplier * 5);
+								go->dmg = 2 + (multiplier * 0.5);
+								go->atkspeed = 1.5;
+								go->range = 1;
+							}
+							else if (i > 23 && i < 26)
+							{
+								go->type = GameObject::GO_HARPY;
+								go->speed = 1 + (multiplier * 0.05);
+								go->hp = 3 * (multiplier * 1.1);
+								go->points = 30 + (multiplier * 5);
+								go->dmg = 2 + (multiplier * 0.5);
+								go->atkspeed = 2;
+								go->range = 1;
+							}
+							else
+							{
+								go->type = GameObject::GO_BEAR;
+								go->speed = 0.5 + (multiplier * 0.05);
+								go->hp = 10 * (multiplier * 1.1);
+								go->points = 50 + (multiplier * 5);
+								go->dmg = 5 + (multiplier * 0.5);
+								go->atkspeed = 1;
+								go->range = 1;
+							}
+						}
 					}
 					if (wave * 5 > 100)
 					{
@@ -838,15 +1101,15 @@ void SceneAsteroid::Update(double dt)
 
 									if (go2->scale.x - bulletdmg >= 1)
 									{
-										m_score += bulletdmg;
-										m_tempscore += bulletdmg;
+										m_score += go2->points;
+										m_tempscore += go2->points;
 										go2->scale.x -= bulletdmg;
 										go2->scale.y -= bulletdmg;
 									}
 									else
 									{
-										m_score += go2->scale.x;
-										m_tempscore += go2->scale.x;
+										m_score += go2->points;
+										m_tempscore += go2->points;
 										go2->active = false;
 									}
 									if (bullettype == BLACKHOLE)
@@ -1246,7 +1509,7 @@ void SceneAsteroid::RenderGO(GameObject *go)
 		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
 		modelStack.Rotate(go->angle + 90.f, 0, 0, 1);
 		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
-		RenderMesh(meshList[GEO_PLAYER], false);
+		RenderMesh(meshList[GEO_SHIP], false);
 		modelStack.PopMatrix();
 		//Exercise 17a: render a ship texture or 3D ship model
 		 
@@ -1280,6 +1543,13 @@ void SceneAsteroid::RenderGO(GameObject *go)
 		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
 		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
 		RenderMesh(meshList[GEO_WHITEHOLE], false);
+		modelStack.PopMatrix();
+		break;
+	case GameObject::GO_GLOBIN:
+		modelStack.PushMatrix();
+		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
+		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
+		RenderMesh(meshList[GEO_GOBLIN], false);
 		modelStack.PopMatrix();
 		break;
 	}
