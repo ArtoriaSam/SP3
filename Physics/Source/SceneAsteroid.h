@@ -57,7 +57,7 @@ protected:
 	float m_Playerspeed;
 	int m_score;
 	int m_tempscore;
-	double prevElapsed;
+	double blackholeElapsed;
 	double elapsedTime;
 	double bullettime;
 	float bounds;
