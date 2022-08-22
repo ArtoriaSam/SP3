@@ -178,7 +178,7 @@ void SceneAsteroid::Update(double dt)
 							go->hp = 2 + (multiplier * 0.5) ;
 							go->points = 20 + (multiplier * 5);
 							go->dmg = 1 + (multiplier * 0.5);
-							go->atkspeed = 0.667f;
+							go->atkspeed = 0.0667f;
 							go->range = 1;
 							go->state = CHASE;
 							go->elapsedtime = 0.0f;
@@ -198,7 +198,7 @@ void SceneAsteroid::Update(double dt)
 								go->hp = 2 + (multiplier * 0.5);
 								go->points = 20 + (multiplier * 5);
 								go->dmg = 1 + (multiplier * 0.5);
-								go->atkspeed = 0.667f;
+								go->atkspeed = 0.0667f;
 								go->range = 1;
 							}
 							else
@@ -208,7 +208,7 @@ void SceneAsteroid::Update(double dt)
 								go->hp = 4 + (multiplier * 0.5);
 								go->points = 30 + (multiplier * 5);
 								go->dmg = 2 + (multiplier * 0.5);
-								go->atkspeed = 1;
+								go->atkspeed = 0.1f;
 								go->range = 1;
 							}
 							go->state = CHASE;
@@ -230,7 +230,7 @@ void SceneAsteroid::Update(double dt)
 								go->hp = 2 + (multiplier * 0.5);
 								go->points = 20 + (multiplier * 5);
 								go->dmg = 1 + (multiplier * 0.5);
-								go->atkspeed = 0.667f;
+								go->atkspeed = 0.0667f;
 								go->range = 1;
 							}
 							else
@@ -240,7 +240,7 @@ void SceneAsteroid::Update(double dt)
 								go->hp = 4 + (multiplier * 0.5);
 								go->points = 30 + (multiplier * 5);
 								go->dmg = 2 + (multiplier * 0.5);
-								go->atkspeed = 1;
+								go->atkspeed = 0.1f;
 								go->range = 1;
 							}
 							go->state = CHASE;
@@ -261,7 +261,7 @@ void SceneAsteroid::Update(double dt)
 								go->hp = 2 + (multiplier * 0.5);
 								go->points = 20 + (multiplier * 5);
 								go->dmg = 1 + (multiplier * 0.5);
-								go->atkspeed = 0.667f;
+								go->atkspeed = 0.0667f;
 								go->range = 1;
 							}
 							else
@@ -292,7 +292,7 @@ void SceneAsteroid::Update(double dt)
 								go->hp = 2 + (multiplier * 0.5);
 								go->points = 20 + (multiplier * 5);
 								go->dmg = 1 + (multiplier * 0.5);
-								go->atkspeed = 0.667f;
+								go->atkspeed = 0.0667f;
 								go->range = 1;
 							}
 							else
@@ -321,7 +321,7 @@ void SceneAsteroid::Update(double dt)
 							go->hp = 2 + (multiplier * 0.5);
 							go->points = 20 + (multiplier * 5);
 							go->dmg = 1 + (multiplier * 0.5);
-							go->atkspeed = 0.667f;
+							go->atkspeed = 0.0667f;
 							go->range = 1;
 							go->state = CHASE;
 							go->elapsedtime = 0.0f;
@@ -341,7 +341,7 @@ void SceneAsteroid::Update(double dt)
 								go->hp = 2 + (multiplier * 0.5);
 								go->points = 20 + (multiplier * 5);
 								go->dmg = 1 + (multiplier * 0.5);
-								go->atkspeed = 0.667f;
+								go->atkspeed = 0.0667f;
 								go->range = 1;
 							}
 							else
@@ -351,7 +351,7 @@ void SceneAsteroid::Update(double dt)
 								go->hp = 4 + (multiplier * 0.5);
 								go->points = 30 + (multiplier * 5);
 								go->dmg = 2 + (multiplier * 0.5);
-								go->atkspeed = 1;
+								go->atkspeed = 0.1f;
 								go->range = 1;
 							}
 							go->state = CHASE;
@@ -372,7 +372,7 @@ void SceneAsteroid::Update(double dt)
 								go->hp = 2 + (multiplier * 0.5);
 								go->points = 20 + (multiplier * 5);
 								go->dmg = 1 + (multiplier * 0.5);
-								go->atkspeed = 0.667f;
+								go->atkspeed = 0.0667f;
 								go->range = 1;
 							}
 							else
@@ -382,7 +382,7 @@ void SceneAsteroid::Update(double dt)
 								go->hp = 4 + (multiplier * 0.5);
 								go->points = 30 + (multiplier * 5);
 								go->dmg = 2 + (multiplier * 0.5);
-								go->atkspeed = 1;
+								go->atkspeed = 0.1f;
 								go->range = 1;
 							}
 							go->state = CHASE;
@@ -403,7 +403,7 @@ void SceneAsteroid::Update(double dt)
 								go->hp = 2 + (multiplier * 0.5);
 								go->points = 20 + (multiplier * 5);
 								go->dmg = 1 + (multiplier * 0.5);
-								go->atkspeed = 0.667f;
+								go->atkspeed = 0.0667f;
 								go->range = 1;
 							}
 							else
@@ -434,7 +434,7 @@ void SceneAsteroid::Update(double dt)
 								go->hp = 2 + (multiplier * 0.5);
 								go->points = 20 + (multiplier * 5);
 								go->dmg = 1 + (multiplier * 0.5);
-								go->atkspeed = 0.667f;
+								go->atkspeed = 0.0667f;
 								go->range = 1;
 							}
 							else if (i > 19 && 1 < 24)
@@ -444,7 +444,7 @@ void SceneAsteroid::Update(double dt)
 								go->hp = 4 + (multiplier * 0.5);
 								go->points = 30 + (multiplier * 5);
 								go->dmg = 2 + (multiplier * 0.5);
-								go->atkspeed = 1;
+								go->atkspeed = 0.1f;
 								go->range = 1;
 							}
 							else if (i > 23 && i < 26)
@@ -775,9 +775,15 @@ void SceneAsteroid::Update(double dt)
 					go->pos = m_player->pos;
 					go->vel = (mousePos - m_player->pos).Normalized() * BULLET_SPEED;
 					if (bullettype == SINGLE)
+					{
+						go->isblackholebullet = false;
 						elapsedTime = 600 * bullettime * dt;
+					}
 					else if (bullettype == BLACKHOLE)
+					{
+						go->isblackholebullet = true;
 						elapsedTime = 3000 * bullettime * dt;
+					}
 				}
 			}
 			/*else if (bLButtonState && !Application::IsMousePressed(0))
@@ -940,7 +946,7 @@ void SceneAsteroid::Update(double dt)
 									float rad = (go->scale.x + go2->scale.x) * (go->scale.x + go2->scale.x);
 									if (dis < rad)
 									{
-										if (bullettype == BLACKHOLE)
+										if (go->isblackholebullet == true)
 										{
 											GameObject* temp = FetchGO();
 											temp->type = GameObject::GO_BLACKHOLE;

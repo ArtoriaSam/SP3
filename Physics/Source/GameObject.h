@@ -34,6 +34,7 @@ struct GameObject
 	int state;
 	float range, speed, atkspeed, elapsedtime;
 	int hp, dmg, points;
+	bool isblackholebullet;
 
 	GameObject(GAMEOBJECT_TYPE typeValue = GO_BALL);
 	~GameObject();
