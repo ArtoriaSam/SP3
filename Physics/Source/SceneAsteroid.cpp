@@ -66,10 +66,11 @@ void SceneAsteroid::Init()
 	minsize = 1;
 	maxsize = 3;
 	multiplier = 0;
+	scale = 3;
 	//Exercise 2c: Construct m_ship, set active, type, scale and pos
-	m_player = new GameObject(GameObject::GO_SHIP);
+	m_player = new GameObject(GameObject::GO_PLAYER);
 	m_player->active = true;
-	m_player->scale.Set(1, 1, 1);
+	m_player->scale.Set(scale, scale, 1);
 	m_player->pos.Set(m_worldWidth / 2, m_worldHeight / 2);
 	m_player->vel.Set(0.1f, 0.1f, 0);
 }
@@ -97,7 +98,6 @@ GameObject* SceneAsteroid::FetchGO()
 void SceneAsteroid::Update(double dt)
 {
 	SceneBase::Update(dt);
-	elapsedTime += dt;
 	//Calculating aspect ratio
 	m_worldHeight = 100.f;
 	m_worldWidth = m_worldHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
@@ -163,6 +163,8 @@ void SceneAsteroid::Update(double dt)
 			{
 				if (waveclear == true)
 				{
+					waveclear = false;
+					wave++;
 					if (wave > 10)
 					{
 						multiplier++;
@@ -172,14 +174,17 @@ void SceneAsteroid::Update(double dt)
 						for (int i = 0; i < 5; i++)
 						{
 							GameObject* go = FetchGO();
-							go->type = GameObject::GO_GLOBIN;
+							go->type = GameObject::GO_GOBLIN;
 							go->speed = 0.5 + (multiplier * 0.05);
-							go->hp = 2 * (multiplier * 1.1);
+							go->hp = 2 + (2 * (multiplier * 1.1) - 2);
 							go->points = 20 + (multiplier * 5);
 							go->dmg = 1 + (multiplier * 0.5);
 							go->atkspeed = 1.5;
 							go->range = 1;
-
+							go->state = CHASE;
+							go->elapsedtime = 0.0f;
+							go->scale.Set(scale, scale, 1);
+							SpawnEnemy(go);
 						}
 					}
 					else if (wave == 2 || (wave - 2) % 10 == 0)
@@ -189,9 +194,9 @@ void SceneAsteroid::Update(double dt)
 							GameObject* go = FetchGO();
 							if (i < 4)
 							{
-								go->type = GameObject::GO_GLOBIN;
+								go->type = GameObject::GO_GOBLIN;
 								go->speed = 0.5 + (multiplier * 0.05);
-								go->hp = 2 * (multiplier * 1.1);
+								go->hp = 2 + (2 * (multiplier * 1.1) - 2);
 								go->points = 20 + (multiplier * 5);
 								go->dmg = 1 + (multiplier * 0.5);
 								go->atkspeed = 1.5;
@@ -201,12 +206,16 @@ void SceneAsteroid::Update(double dt)
 							{
 								go->type = GameObject::GO_WOLF;
 								go->speed = 2 + (multiplier * 0.05);
-								go->hp = 4 * (multiplier * 1.1);
+								go->hp = 4 + (4 * (multiplier * 1.1) - 4);
 								go->points = 30 + (multiplier * 5);
 								go->dmg = 2 + (multiplier * 0.5);
 								go->atkspeed = 1.5;
 								go->range = 1;
 							}
+							go->state = CHASE;
+							go->elapsedtime = 0.0f;
+							go->scale.Set(scale, scale, 1);
+							SpawnEnemy(go);
 						}
 
 					}
@@ -217,9 +226,9 @@ void SceneAsteroid::Update(double dt)
 							GameObject* go = FetchGO();
 							if (i < 6)
 							{
-								go->type = GameObject::GO_GLOBIN;
+								go->type = GameObject::GO_GOBLIN;
 								go->speed = 0.5 + (multiplier * 0.05);
-								go->hp = 2 * (multiplier * 1.1);
+								go->hp = 2 + (2 * (multiplier * 1.1) - 2);
 								go->points = 20 + (multiplier * 5);
 								go->dmg = 1 + (multiplier * 0.5);
 								go->atkspeed = 1.5;
@@ -229,12 +238,16 @@ void SceneAsteroid::Update(double dt)
 							{
 								go->type = GameObject::GO_WOLF;
 								go->speed = 2 + (multiplier * 0.05);
-								go->hp = 4 * (multiplier * 1.1);
+								go->hp = 4 + (4 * (multiplier * 1.1) - 4);
 								go->points = 30 + (multiplier * 5);
 								go->dmg = 2 + (multiplier * 0.5);
 								go->atkspeed = 1.5;
 								go->range = 1;
 							}
+							go->state = CHASE;
+							go->elapsedtime = 0.0f;
+							go->scale.Set(scale, scale, 1);
+							SpawnEnemy(go);
 						}
 					}
 					else if (wave == 4 || (wave - 4) % 10 == 0)
@@ -244,9 +257,9 @@ void SceneAsteroid::Update(double dt)
 							GameObject* go = FetchGO();
 							if (i < 10)
 							{
-								go->type = GameObject::GO_GLOBIN;
+								go->type = GameObject::GO_GOBLIN;
 								go->speed = 0.5 + (multiplier * 0.05);
-								go->hp = 2 * (multiplier * 1.1);
+								go->hp = 2 + (2 * (multiplier * 1.1) - 2);
 								go->points = 20 + (multiplier * 5);
 								go->dmg = 1 + (multiplier * 0.5);
 								go->atkspeed = 1.5;
@@ -256,12 +269,16 @@ void SceneAsteroid::Update(double dt)
 							{
 								go->type = GameObject::GO_HARPY;
 								go->speed = 1 + (multiplier * 0.05);
-								go->hp = 3 * (multiplier * 1.1);
+								go->hp = 3 + (3 * (multiplier * 1.1) - 3);
 								go->points = 30 + (multiplier * 5);
 								go->dmg = 2 + (multiplier * 0.5);
 								go->atkspeed = 2;
-								go->range = 1;
+								go->range = 2;
 							}
+							go->state = CHASE;
+							go->elapsedtime = 0.0f;
+							go->scale.Set(scale, scale, 1);
+							SpawnEnemy(go);
 						}
 					}
 					else if (wave == 5 || (wave - 5) % 10 == 0)
@@ -271,9 +288,9 @@ void SceneAsteroid::Update(double dt)
 							GameObject* go = FetchGO();
 							if (i < 10)
 							{
-								go->type = GameObject::GO_GLOBIN;
+								go->type = GameObject::GO_GOBLIN;
 								go->speed = 0.5 + (multiplier * 0.05);
-								go->hp = 2 * (multiplier * 1.1);
+								go->hp = 2 + (2 * (multiplier * 1.1) - 2);
 								go->points = 20 + (multiplier * 5);
 								go->dmg = 1 + (multiplier * 0.5);
 								go->atkspeed = 1.5;
@@ -283,12 +300,16 @@ void SceneAsteroid::Update(double dt)
 							{
 								go->type = GameObject::GO_BEAR;
 								go->speed = 0.5 + (multiplier * 0.05);
-								go->hp = 10 * (multiplier * 1.1);
+								go->hp = 10 + (10 * (multiplier * 1.1) - 10);
 								go->points = 50 + (multiplier * 5);
 								go->dmg = 5 + (multiplier * 0.5);
 								go->atkspeed = 1;
 								go->range = 1;
 							}
+							go->state = CHASE;
+							go->elapsedtime = 0.0f;
+							go->scale.Set(scale, scale, 1);
+							SpawnEnemy(go);
 						}
 					}
 					else if (wave == 6 || (wave - 6) % 10 == 0)
@@ -296,14 +317,17 @@ void SceneAsteroid::Update(double dt)
 						for (int i = 0; i < 20; i++)
 						{
 							GameObject* go = FetchGO();
-							go->type = GameObject::GO_GLOBIN;
+							go->type = GameObject::GO_GOBLIN;
 							go->speed = 0.5 + (multiplier * 0.05);
-							go->hp = 2 * (multiplier * 1.1);
+							go->hp = 2 + (2 * (multiplier * 1.1) - 2);
 							go->points = 20 + (multiplier * 5);
 							go->dmg = 1 + (multiplier * 0.5);
 							go->atkspeed = 1.5;
 							go->range = 1;
-							
+							go->state = CHASE;
+							go->elapsedtime = 0.0f;
+							go->scale.Set(scale, scale, 1);
+							SpawnEnemy(go);
 						}
 					}
 					else if (wave == 7 || (wave - 7) % 10 == 0)
@@ -313,9 +337,9 @@ void SceneAsteroid::Update(double dt)
 							GameObject* go = FetchGO();
 							if (i < 10)
 							{
-								go->type = GameObject::GO_GLOBIN;
+								go->type = GameObject::GO_GOBLIN;
 								go->speed = 0.5 + (multiplier * 0.05);
-								go->hp = 2 * (multiplier * 1.1);
+								go->hp = 2 + (2 * (multiplier * 1.1) - 2);
 								go->points = 20 + (multiplier * 5);
 								go->dmg = 1 + (multiplier * 0.5);
 								go->atkspeed = 1.5;
@@ -325,12 +349,16 @@ void SceneAsteroid::Update(double dt)
 							{
 								go->type = GameObject::GO_WOLF;
 								go->speed = 2 + (multiplier * 0.05);
-								go->hp = 4 * (multiplier * 1.1);
+								go->hp = 4 + (4 * (multiplier * 1.1) - 4);
 								go->points = 30 + (multiplier * 5);
 								go->dmg = 2 + (multiplier * 0.5);
 								go->atkspeed = 1.5;
 								go->range = 1;
 							}
+							go->state = CHASE;
+							go->elapsedtime = 0.0f;
+							go->scale.Set(scale, scale, 1);
+							SpawnEnemy(go);
 						}
 					}
 					else if (wave == 8 || (wave - 8) % 10 == 0)
@@ -340,9 +368,9 @@ void SceneAsteroid::Update(double dt)
 							GameObject* go = FetchGO();
 							if (i < 15)
 							{
-								go->type = GameObject::GO_GLOBIN;
+								go->type = GameObject::GO_GOBLIN;
 								go->speed = 0.5 + (multiplier * 0.05);
-								go->hp = 2 * (multiplier * 1.1);
+								go->hp = 2 + (2 * (multiplier * 1.1) - 2);
 								go->points = 20 + (multiplier * 5);
 								go->dmg = 1 + (multiplier * 0.5);
 								go->atkspeed = 1.5;
@@ -352,12 +380,16 @@ void SceneAsteroid::Update(double dt)
 							{
 								go->type = GameObject::GO_WOLF;
 								go->speed = 2 + (multiplier * 0.05);
-								go->hp = 4 * (multiplier * 1.1);
+								go->hp = 4 + (4 * (multiplier * 1.1) - 4);
 								go->points = 30 + (multiplier * 5);
 								go->dmg = 2 + (multiplier * 0.5);
 								go->atkspeed = 1.5;
 								go->range = 1;
 							}
+							go->state = CHASE;
+							go->elapsedtime = 0.0f;
+							go->scale.Set(scale, scale, 1);
+							SpawnEnemy(go);
 						}
 					}
 					else if (wave == 9 || (wave - 9) % 10 == 0)
@@ -367,9 +399,9 @@ void SceneAsteroid::Update(double dt)
 							GameObject* go = FetchGO();
 							if (i < 30)
 							{
-								go->type = GameObject::GO_GLOBIN;
+								go->type = GameObject::GO_GOBLIN;
 								go->speed = 0.5 + (multiplier * 0.05);
-								go->hp = 2 * (multiplier * 1.1);
+								go->hp = 2 + (2 * (multiplier * 1.1) - 2);
 								go->points = 20 + (multiplier * 5);
 								go->dmg = 1 + (multiplier * 0.5);
 								go->atkspeed = 1.5;
@@ -379,12 +411,16 @@ void SceneAsteroid::Update(double dt)
 							{
 								go->type = GameObject::GO_HARPY;
 								go->speed = 1 + (multiplier * 0.05);
-								go->hp = 3 * (multiplier * 1.1);
+								go->hp = 3 + (3 * (multiplier * 1.1) - 3);
 								go->points = 30 + (multiplier * 5);
 								go->dmg = 2 + (multiplier * 0.5);
 								go->atkspeed = 2;
-								go->range = 1;
+								go->range = 2;
 							}
+							go->state = CHASE;
+							go->elapsedtime = 0.0f;
+							go->scale.Set(scale, scale, 1);
+							SpawnEnemy(go);
 						}
 					}
 					else if (wave == 10 || (wave - 10) % 10 == 0)
@@ -394,9 +430,9 @@ void SceneAsteroid::Update(double dt)
 							GameObject* go = FetchGO();
 							if (i < 20)
 							{
-								go->type = GameObject::GO_GLOBIN;
+								go->type = GameObject::GO_GOBLIN;
 								go->speed = 0.5 + (multiplier * 0.05);
-								go->hp = 2 * (multiplier * 1.1);
+								go->hp = 2 + (2 * (multiplier * 1.1) - 2);
 								go->points = 20 + (multiplier * 5);
 								go->dmg = 1 + (multiplier * 0.5);
 								go->atkspeed = 1.5;
@@ -406,7 +442,7 @@ void SceneAsteroid::Update(double dt)
 							{
 								go->type = GameObject::GO_WOLF;
 								go->speed = 2 + (multiplier * 0.05);
-								go->hp = 4 * (multiplier * 1.1);
+								go->hp = 4 + (4 * (multiplier * 1.1) - 4);
 								go->points = 30 + (multiplier * 5);
 								go->dmg = 2 + (multiplier * 0.5);
 								go->atkspeed = 1.5;
@@ -416,87 +452,27 @@ void SceneAsteroid::Update(double dt)
 							{
 								go->type = GameObject::GO_HARPY;
 								go->speed = 1 + (multiplier * 0.05);
-								go->hp = 3 * (multiplier * 1.1);
+								go->hp = 3 + (3 * (multiplier * 1.1) - 3);
 								go->points = 30 + (multiplier * 5);
 								go->dmg = 2 + (multiplier * 0.5);
 								go->atkspeed = 2;
-								go->range = 1;
+								go->range = 2;
 							}
 							else
 							{
 								go->type = GameObject::GO_BEAR;
 								go->speed = 0.5 + (multiplier * 0.05);
-								go->hp = 10 * (multiplier * 1.1);
+								go->hp = 10 + (10 * (multiplier * 1.1) - 10);
 								go->points = 50 + (multiplier * 5);
 								go->dmg = 5 + (multiplier * 0.5);
 								go->atkspeed = 1;
 								go->range = 1;
 							}
+							go->state = CHASE;
+							go->elapsedtime = 0.0f;
+							go->scale.Set(scale, scale, 1);
+							SpawnEnemy(go);
 						}
-					}
-					if (wave * 5 > 100)
-					{
-						offset = 100 - (wave * 5);
-					}
-					waveclear = false;
-					wave++;
-					for (int i = 0; i < (wave * 5) + offset; ++i)
-					{
-						//Create
-						GameObject* go = FetchGO();
-						//if (wave % 10 == 0 && (i + 1) % 10 == 0)
-						//{
-						//	go->type = GameObject::GO_BLACKHOLE;
-						//}
-						//else if (wave % 5 == 0 && (i + 1) % 5 == 0)
-						//{
-						//	go->type = GameObject::GO_WHITEHOLE;
-						//}
-						//else
-						//	go->type = GameObject::GO_ASTEROID;
-						int temppos = rand() % 4;
-						//int tempscale = 0;
-						//if (go->type == GameObject::GO_ASTEROID)
-						//	tempscale = rand() % maxsize + minsize;
-						//else
-						//	tempscale = rand() % 3 + 1;
-						if (temppos == 1)
-						{
-							go->pos.Set(Math::RandFloatMinMax(-bounds + (m_player->pos.x - (m_worldWidth / 2)), 0 + (m_player->pos.x - (m_worldWidth / 2))), Math::RandFloatMinMax(-bounds + (m_player->pos.y - (m_worldHeight / 2)), m_worldHeight + bounds + (m_player->pos.y - (m_worldHeight / 2))), go->pos.z);
-							//go->vel.Set(Math::RandFloatMinMax(5, 20), Math::RandFloatMinMax(-20, 20), 0);
-						}
-						else if (temppos == 2)
-						{
-							go->pos.Set(Math::RandFloatMinMax(-bounds + (m_player->pos.x - (m_worldWidth / 2)), m_worldWidth + bounds + (m_player->pos.x - (m_worldWidth / 2))), Math::RandFloatMinMax(m_worldHeight + (m_player->pos.y - (m_worldHeight / 2)), m_worldHeight + bounds + (m_player->pos.y - (m_worldHeight / 2))), go->pos.z);
-							//go->vel.Set(Math::RandFloatMinMax(-20, 20), Math::RandFloatMinMax(-5, -20), 0);
-						}
-						else if (temppos == 3)
-						{
-							go->pos.Set(Math::RandFloatMinMax(m_worldWidth + (m_player->pos.x - (m_worldWidth / 2)), m_worldWidth + bounds + (m_player->pos.x - (m_worldWidth / 2))), Math::RandFloatMinMax(-bounds + (m_player->pos.y - (m_worldHeight / 2)), m_worldHeight + bounds + (m_player->pos.y - (m_worldHeight / 2))), go->pos.z);
-							//go->vel.Set(Math::RandFloatMinMax(-5, -20), Math::RandFloatMinMax(-20, 20), 0);
-						}
-						else
-						{
-							go->pos.Set(Math::RandFloatMinMax(-bounds + (m_player->pos.x - (m_worldWidth / 2)), m_worldWidth + bounds + (m_player->pos.x - (m_worldWidth / 2))), Math::RandFloatMinMax(-bounds + (m_player->pos.y - (m_worldHeight / 2)), 0 + (m_player->pos.y - (m_worldHeight / 2))), go->pos.z);
-							//go->vel.Set(Math::RandFloatMinMax(-20, 20), Math::RandFloatMinMax(5, 20), 0);
-						}
-						//go->scale.Set(tempscale, tempscale, 1);
-						//if (go->pos.x < 0.0f && go->vel.x < 0.0f)
-						//{
-						//	go->vel.x *= -1;
-						//}
-						//else if (go->pos.x > 0.0f && go->vel.x > 0.0f)
-						//{
-						//	go->vel.x *= -1;
-						//}
-						//if (go->pos.y < 0.0f && go->vel.y < 0.0f)
-						//{
-						//	go->vel.y *= -1;
-						//}
-						//else if (go->pos.y > 0.0f && go->vel.y > 0.0f)
-						//{
-						//	go->vel.y *= -1;
-						//}
 					}
 				}
 			}
@@ -594,20 +570,6 @@ void SceneAsteroid::Update(double dt)
 				if (bIState == true & !Application::IsKeyPressed('I'))
 				{
 					bIState = false;
-					//m_ship->mass += 1.0f * dt;
-					/*double diff = elapsedTime - prevElapsed;
-					if (diff > bullettime)
-					{
-						for (int i = 0; i < 12; i++)
-						{
-							GameObject* go = FetchGO();
-							go->type = GameObject::GO_BULLET;
-							go->scale.Set(0.2f, 0.2f, 1.0f);
-							go->pos = m_ship->pos;
-							go->vel = m_ship->vel.Normalized() * BULLET_SPEED;
-							prevElapsed = elapsedTime;
-						}
-					}*/
 					m_score += 100;
 					m_tempscore += 100;
 				}
@@ -619,13 +581,6 @@ void SceneAsteroid::Update(double dt)
 				if (bOState == true && !Application::IsKeyPressed('O'))
 				{
 					bOState = false;
-					/*m_ship->mass -= 1.0f * dt;
-					if (m_ship->mass < 0)
-						m_ship->mass = 0.1f;*/
-						/*if (homing == false)
-							homing = true;
-						else if (homing == true)
-							homing = false;*/
 					m_score -= 100;
 					m_tempscore -= 100;
 					if (m_score < 0)
@@ -783,140 +738,11 @@ void SceneAsteroid::Update(double dt)
 				{
 					testmode = false;
 					godmode = false;
-					for (std::vector<GameObject*>::iterator it = m_goList.begin(); it != m_goList.end(); ++it)
-					{
-						GameObject* go = (GameObject*)*it;
-						if (go->active)
-						{
-							go->active = false;
-							if (go->type == GameObject::GO_ASTEROID)
-								tempasteroid++;
-							else if (go->type == GameObject::GO_BLACKHOLE)
-								tempblackhole++;
-							else if (go->type == GameObject::GO_WHITEHOLE)
-								tempwhitehole++;
-						}
-					}
-					while (tempasteroid + tempblackhole + tempwhitehole > 0)
-					{
-						GameObject* go = FetchGO();
-						if (tempasteroid > 0)
-						{
-							tempasteroid--;
-							go->type = GameObject::GO_ASTEROID;
-						}
-						else if (tempblackhole > 0)
-						{
-							tempblackhole--;
-							go->type = GameObject::GO_BLACKHOLE;
-						}
-						else
-						{
-							tempwhitehole--;
-							go->type = GameObject::GO_WHITEHOLE;
-						}
-						int temppos = rand() % 4;
-						int tempscale = 0;
-						if (go->type == GameObject::GO_ASTEROID)
-							tempscale = rand() % maxsize + minsize;
-						else
-							tempscale = rand() % 3 + 1;
-
-						if (temppos == 1)
-						{
-							go->pos.Set(Math::RandFloatMinMax(-bounds + (m_player->pos.x - (m_worldWidth / 2)), 0 + (m_player->pos.x - (m_worldWidth / 2))), Math::RandFloatMinMax(-bounds + (m_player->pos.y - (m_worldHeight / 2)), m_worldHeight + bounds + (m_player->pos.y - (m_worldHeight / 2))), go->pos.z);
-							go->vel.Set(Math::RandFloatMinMax(5, 20), Math::RandFloatMinMax(-20, 20), 0);
-						}
-						else if (temppos == 2)
-						{
-							go->pos.Set(Math::RandFloatMinMax(-bounds + (m_player->pos.x - (m_worldWidth / 2)), m_worldWidth + bounds + (m_player->pos.x - (m_worldWidth / 2))), Math::RandFloatMinMax(m_worldHeight + (m_player->pos.y - (m_worldHeight / 2)), m_worldHeight + bounds + (m_player->pos.y - (m_worldHeight / 2))), go->pos.z);
-							go->vel.Set(Math::RandFloatMinMax(-20, 20), Math::RandFloatMinMax(-5, -20), 0);
-						}
-						else if (temppos == 3)
-						{
-							go->pos.Set(Math::RandFloatMinMax(m_worldWidth + (m_player->pos.x - (m_worldWidth / 2)), m_worldWidth + bounds + (m_player->pos.x - (m_worldWidth / 2))), Math::RandFloatMinMax(-bounds + (m_player->pos.y - (m_worldHeight / 2)), m_worldHeight + bounds + (m_player->pos.y - (m_worldHeight / 2))), go->pos.z);
-							go->vel.Set(Math::RandFloatMinMax(-5, -20), Math::RandFloatMinMax(-20, 20), 0);
-						}
-						else
-						{
-							go->pos.Set(Math::RandFloatMinMax(-bounds + (m_player->pos.x - (m_worldWidth / 2)), m_worldWidth + bounds + (m_player->pos.x - (m_worldWidth / 2))), Math::RandFloatMinMax(-bounds + (m_player->pos.y - (m_worldHeight / 2)), 0 + (m_player->pos.y - (m_worldHeight / 2))), go->pos.z);
-							go->vel.Set(Math::RandFloatMinMax(-20, 20), Math::RandFloatMinMax(5, 20), 0);
-						}
-						go->scale.Set(tempscale, tempscale, 1);
-						if (go->pos.x < 0.0f && go->vel.x < 0.0f)
-						{
-							go->vel.x *= -1;
-						}
-						else if (go->pos.x > 0.0f && go->vel.x > 0.0f)
-						{
-							go->vel.x *= -1;
-						}
-						if (go->pos.y < 0.0f && go->vel.y < 0.0f)
-						{
-							go->vel.y *= -1;
-						}
-						else if (go->pos.y > 0.0f && go->vel.y > 0.0f)
-						{
-							go->vel.y *= -1;
-						}
-					}
 				}
 			}
-			/*if (m_score >= 100)
-			{
-				//triple = true;
-				homing = true;
-				if (m_score >= 200)
-				{
-					//multi = true;
-					if (m_score >= 250)
-					{
-						bullettime = 0.05f;
-						if (m_score >= 300)
-						{
-							//homing = true;
-						}
-					}
-				}
-				if (m_tempscore >= 100)
-				{
-					bulletdmg++;
-					m_tempscore -= 100;
-				}
-			}
-			else if (m_score < 100)
-			{
-				homing = false;
-				triple = false;
-				multi = false;
-				bullettime = 0.1f;
-				bulletdmg = 1;
-			}*/
 			//Exercise 14: use a key to spawn a bullet
 			if (Application::IsKeyPressed(VK_SPACE))
 			{
-				/*int tempint = 0;
-				for (std::vector<GameObject*>::iterator it = m_goList.begin(); it != m_goList.end(); ++it)
-				{
-					GameObject* go = (GameObject*)*it;
-					if (go->active && go->type == GameObject::GO_BULLET)
-					{
-						tempint++;
-					}
-				}
-				double diff = elapsedTime - prevElapsed;
-				if (tempint < 100 && diff > bullettime)
-				{
-					if (bullettype == SINGLE)
-					{
-						GameObject* go = FetchGO();
-						go->type = GameObject::GO_BULLET;
-						go->scale.Set(0.2f, 0.2f, 1.0f);
-						go->pos = m_player->pos;
-						go->vel = m_player->vel.Normalized() * BULLET_SPEED;
-						prevElapsed = elapsedTime;
-					}
-				}*/
 			}
 			//Exercise 15: limit the spawn rate of bullets
 
@@ -928,6 +754,7 @@ void SceneAsteroid::Update(double dt)
 
 			//Mouse Section
 			//static bool bLButtonState = false;
+			elapsedTime -= dt;
 			if (Application::IsMousePressed(0))
 			{
 				//bLButtonState = true;
@@ -941,15 +768,14 @@ void SceneAsteroid::Update(double dt)
 						tempint++;
 					}
 				}
-				double diff = elapsedTime - prevElapsed;
-				if (tempint < 100 && diff > bullettime)
+				if (tempint < 100 && elapsedTime <= 0)
 				{
 					GameObject* go = FetchGO();
 					go->type = GameObject::GO_BULLET;
-					go->scale.Set(0.2f, 0.2f, 1.0f);
+					go->scale.Set(1.0f, 1.0f, 1.0f);
 					go->pos = m_player->pos;
 					go->vel = (mousePos - m_player->pos).Normalized() * BULLET_SPEED;
-					prevElapsed = elapsedTime;
+					elapsedTime = 120 * bullettime * dt;
 				}
 			}
 			/*else if (bLButtonState && !Application::IsMousePressed(0))
@@ -979,9 +805,9 @@ void SceneAsteroid::Update(double dt)
 				if (m_player->vel.LengthSquared() > MAX_SPEED * MAX_SPEED)
 					m_player->vel.Normalize() *= MAX_SPEED;
 				m_player->pos += m_player->vel * dt * m_Playerspeed;
-				float angleInRadians = std::atan2(m_player->vel.y, m_player->vel.x);
+				/*float angleInRadians = std::atan2(m_player->vel.y, m_player->vel.x);
 				float angleInDegrees = (angleInRadians / Math::PI) * 180.0 - 90.0f;
-				m_player->angle = angleInDegrees;
+				m_player->angle = angleInDegrees;*/
 			}
 			//Exercise 9: wrap ship position if it leaves screen
 			//Wrap(m_player->pos.x, m_worldWidth);
@@ -991,97 +817,93 @@ void SceneAsteroid::Update(double dt)
 				GameObject* go = (GameObject*)*it;
 				if (go->active)
 				{
-					if (go->type != GameObject::GO_BLACKHOLE)
-						go->pos += go->vel * dt * m_speed;
 					//Exercise 12: handle collision between GO_SHIP and GO_ASTEROID using simple distance-based check
-					if (go->type == GameObject::GO_ASTEROID)
+					if (go->type == GameObject::GO_GOBLIN || go->type == GameObject::GO_WOLF || 
+						go->type == GameObject::GO_BEAR || go->type == GameObject::GO_HARPY)
 					{
 						float dis = go->pos.DistanceSquared(m_player->pos);
 						float cRad = (m_player->scale.x + go->scale.x) * (m_player->scale.x + go->scale.x);
 						if (dis < cRad)
 						{
-							go->active = false;
 							if (godmode == false)
-								HP -= 1;
-						}
-
-						//Exercise 13: asteroids should wrap around the screen like the ship
-						if (go->active)
-						{
-							if (go->pos.x < -bounds + (m_player->pos.x - (m_worldWidth/ 2)) || go->pos.x > m_worldWidth + bounds + (m_player->pos.x - (m_worldWidth / 2)) || go->pos.y < -bounds + (m_player->pos.y - (m_worldHeight / 2)) || go->pos.y > m_worldHeight + bounds + (m_player->pos.y - (m_worldHeight / 2)))
 							{
-								int temppos = rand() % 4;
-								if (temppos == 1)
+								if (go->type == GameObject::GO_HARPY)
+									HP -= 1;
+								else
+									HP -= go->dmg;
+							}
+						}
+						switch (go->state)
+						{
+						    case CHASE:
+							{
+								dis = go->pos.DistanceSquared(m_player->pos);
+								cRad = (m_player->scale.x + (go->range * go->scale.x)) * (m_player->scale.x + (go->range * go->scale.x));
+								if (dis < cRad)
 								{
-									go->pos.Set(Math::RandFloatMinMax(-bounds + (m_player->pos.x - (m_worldWidth / 2)), 0 + (m_player->pos.x - (m_worldWidth / 2))), Math::RandFloatMinMax(-bounds + (m_player->pos.y - (m_worldHeight / 2)), m_worldHeight + bounds + (m_player->pos.y - (m_worldHeight / 2))), go->pos.z);
-									go->vel.Set(Math::RandFloatMinMax(5, 20), Math::RandFloatMinMax(-20, 20), 0);
+									go->state = ATTACK;
+									go->elapsedtime = 0.0f;
 								}
-								else if (temppos == 2)
+								else if (go->hp <= 0)
 								{
-									go->pos.Set(Math::RandFloatMinMax(-bounds + (m_player->pos.x - (m_worldWidth / 2)), m_worldWidth + bounds + (m_player->pos.x - (m_worldWidth / 2))), Math::RandFloatMinMax(m_worldHeight + (m_player->pos.y - (m_worldHeight / 2)), m_worldHeight + bounds + (m_player->pos.y - (m_worldHeight / 2))), go->pos.z);
-									go->vel.Set(Math::RandFloatMinMax(-20, 20), Math::RandFloatMinMax(-5, -20), 0);
-								}
-								else if (temppos == 3)
-								{
-									go->pos.Set(Math::RandFloatMinMax(m_worldWidth + (m_player->pos.x - (m_worldWidth / 2)), m_worldWidth + bounds + (m_player->pos.x - (m_worldWidth / 2))), Math::RandFloatMinMax(-bounds + (m_player->pos.y - (m_worldHeight / 2)), m_worldHeight + bounds + (m_player->pos.y - (m_worldHeight / 2))), go->pos.z);
-									go->vel.Set(Math::RandFloatMinMax(-5, -20), Math::RandFloatMinMax(-20, 20), 0);
+									go->state = DEATH;
 								}
 								else
 								{
-									go->pos.Set(Math::RandFloatMinMax(-bounds + (m_player->pos.x - (m_worldWidth / 2)), m_worldWidth + bounds + (m_player->pos.x - (m_worldWidth / 2))), Math::RandFloatMinMax(-bounds + (m_player->pos.y - (m_worldHeight / 2)), 0 + (m_player->pos.y - (m_worldHeight / 2))), go->pos.z);
-									go->vel.Set(Math::RandFloatMinMax(-20, 20), Math::RandFloatMinMax(5, 20), 0);
+									Vector3 temp;
+									temp = (m_player->pos - go->pos);
+									go->vel = temp.Normalized() * go->speed;
+									go->pos += go->vel * dt * m_speed;
 								}
-								if (go->pos.y < 0.0f && go->vel.y < 0.0f)
-								{
-									go->vel.y *= -1;
-								}
-								else if (go->pos.y > 0.0f && go->vel.y > 0.0f)
-								{
-									go->vel.y *= -1;
-								}
+								break;
 							}
-							//WrapAsteroids(go->pos.x, m_worldWidth + bounds);
-							//WrapAsteroids(go->pos.y, m_worldHeight + bounds);
-
-							for (std::vector<GameObject*>::iterator it2 = m_goList.begin(); it2 != m_goList.end(); ++it2)
+							case ATTACK:
 							{
-								GameObject* go2 = (GameObject*)*it2;
-								if (go != go2)
+								go->elapsedtime -= dt;
+								dis = go->pos.DistanceSquared(m_player->pos);
+								cRad = (m_player->scale.x + (go->range * go->scale.x)) * (m_player->scale.x + (go->range * go->scale.x));
+								if (dis > cRad)
 								{
-									if (go2->type == GameObject::GO_ASTEROID && go2->active)
+									go->state = CHASE;
+								}
+								else if (go->hp <= 0)
+								{
+									go->state = DEATH;
+								}
+								else if (elapsedTime <= 0.0f)
+								{
+									go->elapsedtime = go->atkspeed * 60 * dt;
+									if (go->type == GameObject::GO_HARPY)
 									{
-										float dis = go->pos.DistanceSquared(go2->pos);
-										float rad = (go->scale.x + go2->scale.x) * (go->scale.x + go2->scale.x);
-										if (dis < rad)
-										{
-											if (go->scale.x > go2->scale.x)
-											{
-												go->vel += (go2->scale.x / go->scale.x) * go2->vel;
-												go->scale.x -= go2->scale.x;
-												go->scale.y -= go2->scale.y;
-												go2->active = false;
-											}
-											else if (go2->scale.x > go->scale.x)
-											{
-												go2->vel += (go->scale.x / go2->scale.x) * go->vel;
-												go2->scale.x -= go->scale.x;
-												go2->scale.y -= go->scale.y;
-												go->active = false;
-											}
-											else if (go->scale.x == go2->scale.x)
-											{
-												go->active = false;
-												go2->active = false;
-											}
-										}
+										GameObject* temp = FetchGO();
+										temp->type = GameObject::GO_FEATHER;
+										temp->scale.Set(2.0f, 2.0f, 1.0f);
+										temp->pos = go->pos;
+										temp->dmg = go->dmg;
+										temp->vel = (m_player->pos - go->pos).Normalized() * BULLET_SPEED;
+									}
+									else
+									{
+										HP -= go->dmg;
 									}
 								}
+								break;
 							}
+							case DEATH:
+							{
+								go->active = false;
+								m_score += go->points;
+								m_tempscore += go->points;
+								break;
+							}
+							default:
+								break;
 						}
 					}
 					//Exercise 16: unspawn bullets when they leave screen
 					if (go->type == GameObject::GO_BULLET)
 					{
+						go->pos += go->vel * dt * m_speed;
 						if (go->pos.x > m_worldWidth + bounds + (m_player->pos.x - (m_worldWidth / 2)) || go->pos.x < 0 - bounds + (m_player->pos.x - (m_worldWidth / 2)) || go->pos.y > m_worldHeight + bounds + (m_player->pos.y - (m_worldHeight / 2)) || go->pos.y < 0 - bounds + (m_player->pos.y - (m_worldHeight / 2)))
 						{
 							go->active = false;
@@ -1091,35 +913,26 @@ void SceneAsteroid::Update(double dt)
 						for (std::vector<GameObject*>::iterator it2 = m_goList.begin(); it2 != m_goList.end(); ++it2)
 						{
 							GameObject* go2 = (GameObject*)*it2;
-							if (go2->type == GameObject::GO_ASTEROID && go2->active)
+							if (go2->active)
 							{
-								float dis = go->pos.DistanceSquared(go2->pos);
-								float rad = (go->scale.x + go2->scale.x) * (go->scale.x + go2->scale.x);
-								if (dis < rad)
+								if (go2->type == GameObject::GO_GOBLIN || go2->type == GameObject::GO_WOLF ||
+									go2->type == GameObject::GO_BEAR || go2->type == GameObject::GO_HARPY)
 								{
-									go->active = false;
-
-									if (go2->scale.x - bulletdmg >= 1)
+									float dis = go->pos.DistanceSquared(go2->pos);
+									float rad = (go->scale.x + go2->scale.x) * (go->scale.x + go2->scale.x);
+									if (dis < rad)
 									{
-										m_score += go2->points;
-										m_tempscore += go2->points;
-										go2->scale.x -= bulletdmg;
-										go2->scale.y -= bulletdmg;
-									}
-									else
-									{
-										m_score += go2->points;
-										m_tempscore += go2->points;
-										go2->active = false;
-									}
-									if (bullettype == BLACKHOLE)
-									{
-										GameObject* temp = FetchGO();
-										temp->type = GameObject::GO_BLACKHOLE;
-										temp->pos.Set(go->pos.x, go->pos.y, go->pos.z);
-										temp->vel.Set(0, 0, 0);
-										temp->scale.Set(3, 3, 1);
-										temp->existtimer = 60 * dt;
+										go2->hp -= bulletdmg;
+										go->active = false;
+										if (bullettype == BLACKHOLE)
+										{
+											GameObject* temp = FetchGO();
+											temp->type = GameObject::GO_BLACKHOLE;
+											temp->pos.Set(go->pos.x, go->pos.y, go->pos.z);
+											temp->vel.Set(0, 0, 0);
+											temp->scale.Set(3, 3, 1);
+											temp->existtimer = 60 * dt;
+										}
 									}
 								}
 							}
@@ -1131,19 +944,23 @@ void SceneAsteroid::Update(double dt)
 							for (std::vector<GameObject*>::iterator it2 = m_goList.begin(); it2 != m_goList.end(); ++it2)
 							{
 								GameObject* go2 = (GameObject*)*it2;
-								if (go2->type == GameObject::GO_ASTEROID && go2->active)
+								if (go2->active)
 								{
-									float tempdist = go->pos.DistanceSquared(go2->pos);
-									if (dist == 0.f || tempdist < dist)
+									if (go2->type == GameObject::GO_GOBLIN || go2->type == GameObject::GO_WOLF ||
+										go2->type == GameObject::GO_BEAR || go2->type == GameObject::GO_HARPY)
 									{
-										dist = tempdist;
-										temp = (go2->pos - go->pos);
+										float tempdist = go->pos.DistanceSquared(go2->pos);
+										if (dist == 0.f || tempdist < dist)
+										{
+											dist = tempdist;
+											temp = (go2->pos - go->pos);
+										}
 									}
 								}
-							}
-							if (temp != NULL && go->active)
-							{
-								go->vel = temp.Normalized() * BULLET_SPEED;
+								if (temp != NULL && go->active)
+								{
+									go->vel = temp.Normalized() * BULLET_SPEED;
+								}
 							}
 						}
 					}
@@ -1179,7 +996,8 @@ void SceneAsteroid::Update(double dt)
 								}
 								if (dis < rad)
 								{
-									if (go2->type == GameObject::GO_ASTEROID)
+									if (go2->type == GameObject::GO_GOBLIN || go2->type == GameObject::GO_WOLF ||
+										go2->type == GameObject::GO_BEAR || go2->type == GameObject::GO_HARPY)
 									{
 										go2->active = false;
 									}
@@ -1194,69 +1012,24 @@ void SceneAsteroid::Update(double dt)
 										go->vel += go2->vel;
 										go2->active = false;
 									}
-									else if (go2->type == GameObject::GO_WHITEHOLE)
-									{
-										go->scale.x *= go2->scale.x;
-										go->scale.y *= go2->scale.y;
-										go->vel -= go2->vel;
-										go2->active = false;
-									}
 								}
 							}
 						}
 					}
-					if (go->type == GameObject::GO_WHITEHOLE)
+					if (go->type == GameObject::GO_FEATHER)
 					{
-						if (go->pos.x > m_worldWidth + bounds || go->pos.x < 0 - bounds || go->pos.y > m_worldHeight + bounds || go->pos.y < 0 - bounds)
+						go->pos += go->vel * dt * m_speed;
+						if (go->pos.x > m_worldWidth + bounds + (m_player->pos.x - (m_worldWidth / 2)) || go->pos.x < 0 - bounds + (m_player->pos.x - (m_worldWidth / 2)) || go->pos.y > m_worldHeight + bounds + (m_player->pos.y - (m_worldHeight / 2)) || go->pos.y < 0 - bounds + (m_player->pos.y - (m_worldHeight / 2)))
 						{
 							go->active = false;
 							continue;
 						}
-						float tempdis = go->pos.DistanceSquared(m_player->pos);
-						float tempRad = (m_player->scale.x + go->scale.x) * (m_player->scale.x + go->scale.x);
-						if (tempdis < go->scale.x * tempRad * 5)
+						float dis = go->pos.DistanceSquared(m_player->pos);
+						float rad = (go->scale.x + m_player->scale.x) * (go->scale.x + m_player->scale.x);
+						if (dis < rad)
 						{
-							m_player->vel += (m_player->pos - go->pos) * (go->scale.x / tempdis) * go->scale.x * go->scale.x;
-						}
-						if (tempdis < tempRad)
-						{
-							m_player->vel -= go->vel * go->scale.x * go->scale.x;
-						}
-
-						for (std::vector<GameObject*>::iterator it2 = m_goList.begin(); it2 != m_goList.end(); ++it2)
-						{
-							GameObject* go2 = (GameObject*)*it2;
-							if (go != go2 && go2->active)
-							{
-								float dis = go->pos.DistanceSquared(go2->pos);
-								float rad = (go->scale.x + go2->scale.x) * (go->scale.x + go2->scale.x);
-								if (dis < go->scale.x * rad * 5)
-								{
-									go2->vel += (go2->pos - go->pos) * (go->scale.x / dis) * go->scale.x * go->scale.x;
-								}
-								if (dis < rad)
-								{
-									if (go2->type == GameObject::GO_ASTEROID)
-									{
-										go2->vel -= go->vel * go->scale.x * go->scale.x;
-									}
-									else if (go2->type == GameObject::GO_BULLET)
-									{
-										go2->vel -= go->vel * go->scale.x * go->scale.x;
-									}
-									/*else if (go2->type == GameObject::GO_BLACKHOLE)
-									{
-										go2->scale.x *= go->scale.x;
-										go2->scale.y *= go->scale.y;
-										go2->vel -= go->vel;
-										go->active = false;
-									}*/
-									/*else if (go2->type == GameObject::GO_WHITEHOLE)
-									{
-
-									}*/
-								}
-							}
+							HP -= go->dmg;
+							go->active = false;
 						}
 					}
 				}
@@ -1275,7 +1048,10 @@ void SceneAsteroid::Update(double dt)
 				}
 				if (go->active)
 				{
-					if (go->type == GameObject::GO_ASTEROID || go->type == GameObject::GO_BLACKHOLE || go->type == GameObject::GO_WHITEHOLE)
+					if (go->type == GameObject::GO_GOBLIN || go->type == GameObject::GO_WOLF || 
+						go->type == GameObject::GO_BEAR || go->type == GameObject::GO_HARPY ||
+						go->type == GameObject::GO_FEATHER || go->type == GameObject::GO_BLACKHOLE ||
+						go->type == GameObject::GO_BULLET)
 					{
 						clear = false;
 						continue;
@@ -1328,6 +1104,7 @@ void SceneAsteroid::Update(double dt)
 				gamemenu = true;
 				testmode = false;
 				godmode = false;
+				elapsedTime = 0.0;
 				HP = MaxHP = 10;
 				m_score = 0;
 				m_tempscore = 0;
@@ -1516,6 +1293,15 @@ void SceneAsteroid::RenderGO(GameObject *go)
 		//Exercise 17b:	re-orientate the ship with velocity
 
 		break;
+	case GameObject::GO_PLAYER:
+		//Exercise 4a: render a sphere with radius 1
+		modelStack.PushMatrix();
+		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
+		modelStack.Rotate(180, 0, 0, 1);
+		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
+		RenderMesh(meshList[GEO_PLAYER], false);
+		modelStack.PopMatrix();
+		break;
 	case GameObject::GO_ASTEROID:
 		//Exercise 4b: render a cube with length 2
 		modelStack.PushMatrix();
@@ -1545,11 +1331,44 @@ void SceneAsteroid::RenderGO(GameObject *go)
 		RenderMesh(meshList[GEO_WHITEHOLE], false);
 		modelStack.PopMatrix();
 		break;
-	case GameObject::GO_GLOBIN:
+	case GameObject::GO_GOBLIN:
 		modelStack.PushMatrix();
 		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
+		modelStack.Rotate(180, 0, 0, 1);
 		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
 		RenderMesh(meshList[GEO_GOBLIN], false);
+		modelStack.PopMatrix();
+		break;
+	case GameObject::GO_WOLF:
+		modelStack.PushMatrix();
+		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
+		modelStack.Rotate(180, 0, 0, 1);
+		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
+		RenderMesh(meshList[GEO_WOLF], false);
+		modelStack.PopMatrix();
+		break;
+	case GameObject::GO_BEAR:
+		modelStack.PushMatrix();
+		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
+		modelStack.Rotate(180, 0, 0, 1);
+		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
+		RenderMesh(meshList[GEO_BEAR], false);
+		modelStack.PopMatrix();
+		break;
+	case GameObject::GO_HARPY:
+		modelStack.PushMatrix();
+		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
+		modelStack.Rotate(180, 0, 0, 1);
+		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
+		RenderMesh(meshList[GEO_HARPY], false);
+		modelStack.PopMatrix();
+		break;
+	case GameObject::GO_FEATHER:
+		modelStack.PushMatrix();
+		modelStack.Translate(go->pos.x, go->pos.y, go->pos.z);
+		modelStack.Rotate(180, 0, 0, 1);
+		modelStack.Scale(go->scale.x, go->scale.y, go->scale.z);
+		RenderMesh(meshList[GEO_FEATHER], false);
 		modelStack.PopMatrix();
 		break;
 	}
@@ -1816,5 +1635,27 @@ void SceneAsteroid::WrapAsteroids(float& vel, float bound)
 	else if (vel > bound)
 	{
 		vel -= bound;
+	}
+}
+
+void SceneAsteroid::SpawnEnemy(GameObject* go)
+{
+
+	int temppos = rand() % 4;
+	if (temppos == 1)
+	{
+		go->pos.Set(Math::RandFloatMinMax(-bounds + (m_player->pos.x - (m_worldWidth / 2)), 0 + (m_player->pos.x - (m_worldWidth / 2))), Math::RandFloatMinMax(-bounds + (m_player->pos.y - (m_worldHeight / 2)), m_worldHeight + bounds + (m_player->pos.y - (m_worldHeight / 2))), go->pos.z);
+	}
+	else if (temppos == 2)
+	{
+		go->pos.Set(Math::RandFloatMinMax(-bounds + (m_player->pos.x - (m_worldWidth / 2)), m_worldWidth + bounds + (m_player->pos.x - (m_worldWidth / 2))), Math::RandFloatMinMax(m_worldHeight + (m_player->pos.y - (m_worldHeight / 2)), m_worldHeight + bounds + (m_player->pos.y - (m_worldHeight / 2))), go->pos.z);
+	}
+	else if (temppos == 3)
+	{
+		go->pos.Set(Math::RandFloatMinMax(m_worldWidth + (m_player->pos.x - (m_worldWidth / 2)), m_worldWidth + bounds + (m_player->pos.x - (m_worldWidth / 2))), Math::RandFloatMinMax(-bounds + (m_player->pos.y - (m_worldHeight / 2)), m_worldHeight + bounds + (m_player->pos.y - (m_worldHeight / 2))), go->pos.z);
+	}
+	else
+	{
+		go->pos.Set(Math::RandFloatMinMax(-bounds + (m_player->pos.x - (m_worldWidth / 2)), m_worldWidth + bounds + (m_player->pos.x - (m_worldWidth / 2))), Math::RandFloatMinMax(-bounds + (m_player->pos.y - (m_worldHeight / 2)), 0 + (m_player->pos.y - (m_worldHeight / 2))), go->pos.z);
 	}
 }

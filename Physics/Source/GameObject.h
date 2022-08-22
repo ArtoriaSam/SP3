@@ -16,10 +16,11 @@ struct GameObject
 		GO_BLACKHOLE,
 		GO_WHITEHOLE,
 		GO_PLAYER,
-		GO_GLOBIN,
+		GO_GOBLIN,
 		GO_WOLF,
 		GO_BEAR,
 		GO_HARPY,
+		GO_FEATHER,
 		GO_TOTAL, //must be last
 	};
 	GAMEOBJECT_TYPE type;
@@ -31,7 +32,7 @@ struct GameObject
 	float mass;
 	float existtimer;
 	int state;
-	float range, speed, atkspeed;
+	float range, speed, atkspeed, elapsedtime;
 	int hp, dmg, points;
 
 	GameObject(GAMEOBJECT_TYPE typeValue = GO_BALL);

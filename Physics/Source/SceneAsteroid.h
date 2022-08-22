@@ -34,6 +34,7 @@ public:
 	virtual void Exit();
 	static void Wrap(float& vel, float bound);
 	void WrapAsteroids(float& vel, float bound);
+	void SpawnEnemy(GameObject *go);
 
 	void RenderGO(GameObject *go);
 
@@ -89,6 +90,7 @@ protected:
 	int passivehealup;
 	bool passivehealing;
 	int multiplier;
+	int scale;
 };
 
 #endif
