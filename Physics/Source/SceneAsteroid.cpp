@@ -1050,8 +1050,7 @@ void SceneAsteroid::Update(double dt)
 				{
 					if (go->type == GameObject::GO_GOBLIN || go->type == GameObject::GO_WOLF || 
 						go->type == GameObject::GO_BEAR || go->type == GameObject::GO_HARPY ||
-						go->type == GameObject::GO_FEATHER || go->type == GameObject::GO_BLACKHOLE ||
-						go->type == GameObject::GO_BULLET)
+						go->type == GameObject::GO_FEATHER || go->type == GameObject::GO_BLACKHOLE)
 					{
 						clear = false;
 						continue;
@@ -1138,6 +1137,7 @@ void SceneAsteroid::Update(double dt)
 		instructionmenu = false;
 		if (selection == 0)
 		{
+			elapsedTime = 0;
 			gamemenu = true;
 			testmode = false;
 			godmode = false;
