@@ -75,6 +75,7 @@ protected:
 	bool pause;
 	bool godmode;
 	bool mainmenu;
+	bool instructionmenu;
 	bool gamemenu;
 	bool upgrademenu;
 	bool gameover;
