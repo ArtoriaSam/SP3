@@ -49,7 +49,6 @@ protected:
 	float m_worldWidth;
 	float m_worldHeight;
 	GameObject *m_player;
-	GameObject* m_background;
 	Vector3 m_force;
 	int m_objectCount;
 	int HP;
