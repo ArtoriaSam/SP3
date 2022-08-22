@@ -1325,36 +1325,73 @@ void SceneAsteroid::Update(double dt)
 			mainmenu = false;
 			if (selection == 0)
 			{
-				gamemenu = true;
-				testmode = false;
-				godmode = false;
-				HP = MaxHP = 10;
-				m_score = 0;
-				m_tempscore = 0;
-				wave = 0;
-				m_objectCount = 0;
-				m_speed = 1.0f;
-				m_Playerspeed = 1.0f;
-				homing = false;
-				blackhole = false;
-				bullettype = SINGLE;
-				bulletdmg = 1;
-				bullettime = 0.1f;
-				m_tempscore = 0;
-				hpup = 0;
-				dmgup = 0;
-				bulletspeedup = 0;
-				playerspeedup = 0;
-				healup = 0;
-				passivehealup = 0;
-				passivehealingtime = 360;
-				passivehealtimer = 0.0;
-				passiveheal = 1;
-				passivehealing = false;
-				m_player->active = true;
-				m_player->pos.Set((m_worldWidth / 2), (m_worldHeight / 2));
+				instructionmenu = true;
 			}
 		}
+	}
+	else if (instructionmenu == true)
+	{
+	static bool bUpState = false;
+	if (bUpState == false && Application::IsKeyPressed(VK_UP))
+	{
+		bUpState = true;
+	}
+	else if (bUpState == true && !Application::IsKeyPressed(VK_UP))
+	{
+		bUpState = false;
+	}
+
+	static bool bDownState = false;
+	if (bDownState == false && Application::IsKeyPressed(VK_DOWN))
+	{
+		bDownState = true;
+	}
+	else if (bDownState == true && !Application::IsKeyPressed(VK_DOWN))
+	{
+		bDownState = false;
+	}
+
+	static bool bSpaceState = false;
+	if (bSpaceState == false && Application::IsKeyPressed(VK_SPACE))
+	{
+		bSpaceState = true;
+	}
+	else if (bSpaceState == true && !Application::IsKeyPressed(VK_SPACE))
+	{
+		bSpaceState = false;
+		instructionmenu = false;
+		if (selection == 0)
+		{
+			gamemenu = true;
+			testmode = false;
+			godmode = false;
+			HP = MaxHP = 10;
+			m_score = 0;
+			m_tempscore = 0;
+			wave = 0;
+			m_objectCount = 0;
+			m_speed = 1.0f;
+			m_Playerspeed = 1.0f;
+			homing = false;
+			blackhole = false;
+			bullettype = SINGLE;
+			bulletdmg = 1;
+			bullettime = 0.1f;
+			m_tempscore = 0;
+			hpup = 0;
+			dmgup = 0;
+			bulletspeedup = 0;
+			playerspeedup = 0;
+			healup = 0;
+			passivehealup = 0;
+			passivehealingtime = 360;
+			passivehealtimer = 0.0;
+			passiveheal = 1;
+			passivehealing = false;
+			m_player->active = true;
+			m_player->pos.Set((m_worldWidth / 2), (m_worldHeight / 2));
+		}
+	}
 	}
 	else if (gameover == true)
 	{
@@ -1654,7 +1691,20 @@ void SceneAsteroid::Render()
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], "Gunman Survival", Color(1, 0, 0), 4, (m_worldWidth / 2) - 55, m_worldHeight / 2);
 		ss.str("");
-		RenderTextOnScreen(meshList[GEO_TEXT], "Start", Color(1, 1, 1), 3, (m_worldWidth / 2) - 34, m_worldHeight / 2 - 10);
+		RenderTextOnScreen(meshList[GEO_TEXT], "Press Space", Color(1, 1, 1), 3, (m_worldWidth / 2) - 42.5, m_worldHeight / 2 - 10);
+		RenderTextOnScreen(meshList[GEO_TEXT], "For instructions", Color(1, 1, 1), 3, (m_worldWidth / 2) - 50, m_worldHeight / 2 - 13);
+	}
+	else if (instructionmenu == true)
+	{
+		RenderTextOnScreen(meshList[GEO_TEXT], "Insructions", Color(1, 0, 0), 4, (m_worldWidth / 2) - 65, m_worldHeight / 2);
+		RenderTextOnScreen(meshList[GEO_TEXT], "Controls:", Color(1, 1, 1), 3, (m_worldWidth / 2) - 65, m_worldHeight / 2 - 6);
+		RenderTextOnScreen(meshList[GEO_TEXT], "WASD for movement", Color(1, 1, 1), 3, (m_worldWidth / 2) - 65, m_worldHeight / 2 - 9);
+		RenderTextOnScreen(meshList[GEO_TEXT], "Left Mouse to shoot", Color(1, 1, 1), 3, (m_worldWidth / 2) - 65, m_worldHeight / 2 - 12);
+		RenderTextOnScreen(meshList[GEO_TEXT], "U for shop", Color(1, 1, 1), 3, (m_worldWidth / 2) - 65, m_worldHeight / 2 - 18);
+		RenderTextOnScreen(meshList[GEO_TEXT], "WS or Up/Down Arrow keys", Color(1, 1, 1), 3, (m_worldWidth / 2) - 65, m_worldHeight / 2 - 21);
+		RenderTextOnScreen(meshList[GEO_TEXT], "for shop navigation", Color(1, 1, 1), 3, (m_worldWidth / 2) - 65, m_worldHeight / 2 - 24);
+		RenderTextOnScreen(meshList[GEO_TEXT], "Space to select upgrade", Color(1, 1, 1), 3, (m_worldWidth / 2) - 65, m_worldHeight / 2 - 27);
+		RenderTextOnScreen(meshList[GEO_TEXT], "Press Space to start Game", Color(1, 1, 1), 3, (m_worldWidth / 2) - 65, m_worldHeight / 2 - 33);
 	}
 	else if (gameover == true)
 	{
