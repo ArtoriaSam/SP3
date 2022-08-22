@@ -273,7 +273,7 @@ void SceneAsteroid::Update(double dt)
 								go->points = 30 + (multiplier * 5);
 								go->dmg = 2 + (multiplier * 0.5);
 								go->atkspeed = 2;
-								go->range = 2;
+								go->range = 20;
 							}
 							go->state = CHASE;
 							go->elapsedtime = 0.0f;
@@ -415,7 +415,7 @@ void SceneAsteroid::Update(double dt)
 								go->points = 30 + (multiplier * 5);
 								go->dmg = 2 + (multiplier * 0.5);
 								go->atkspeed = 2;
-								go->range = 2;
+								go->range = 20;
 							}
 							go->state = CHASE;
 							go->elapsedtime = 0.0f;
@@ -456,7 +456,7 @@ void SceneAsteroid::Update(double dt)
 								go->points = 30 + (multiplier * 5);
 								go->dmg = 2 + (multiplier * 0.5);
 								go->atkspeed = 2;
-								go->range = 2;
+								go->range = 20;
 							}
 							else
 							{
@@ -775,7 +775,7 @@ void SceneAsteroid::Update(double dt)
 					go->scale.Set(1.0f, 1.0f, 1.0f);
 					go->pos = m_player->pos;
 					go->vel = (mousePos - m_player->pos).Normalized() * BULLET_SPEED;
-					elapsedTime = 120 * bullettime * dt;
+					elapsedTime = 600 * bullettime * dt;
 				}
 			}
 			/*else if (bLButtonState && !Application::IsMousePressed(0))
@@ -821,6 +821,7 @@ void SceneAsteroid::Update(double dt)
 					if (go->type == GameObject::GO_GOBLIN || go->type == GameObject::GO_WOLF || 
 						go->type == GameObject::GO_BEAR || go->type == GameObject::GO_HARPY)
 					{
+						go->elapsedtime -= dt;
 						float dis = go->pos.DistanceSquared(m_player->pos);
 						float cRad = (m_player->scale.x + go->scale.x) * (m_player->scale.x + go->scale.x);
 						if (dis < cRad)
@@ -842,7 +843,6 @@ void SceneAsteroid::Update(double dt)
 								if (dis < cRad)
 								{
 									go->state = ATTACK;
-									go->elapsedtime = 0.0f;
 								}
 								else if (go->hp <= 0)
 								{
@@ -859,7 +859,6 @@ void SceneAsteroid::Update(double dt)
 							}
 							case ATTACK:
 							{
-								go->elapsedtime -= dt;
 								dis = go->pos.DistanceSquared(m_player->pos);
 								cRad = (m_player->scale.x + (go->range * go->scale.x)) * (m_player->scale.x + (go->range * go->scale.x));
 								if (dis > cRad)
@@ -872,7 +871,7 @@ void SceneAsteroid::Update(double dt)
 								}
 								else if (elapsedTime <= 0.0f)
 								{
-									go->elapsedtime = go->atkspeed * 60 * dt;
+									go->elapsedtime = 120 * dt * go->atkspeed ;
 									if (go->type == GameObject::GO_HARPY)
 									{
 										GameObject* temp = FetchGO();
@@ -1164,6 +1163,7 @@ void SceneAsteroid::Update(double dt)
 			passivehealtimer = 0.0;
 			passiveheal = 1;
 			passivehealing = false;
+			multiplier = 0;
 			m_player->active = true;
 			m_player->pos.Set((m_worldWidth / 2), (m_worldHeight / 2));
 		}
