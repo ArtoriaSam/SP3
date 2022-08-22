@@ -954,6 +954,7 @@ void SceneAsteroid::Update(double dt)
 											temp->vel.Set(0, 0, 0);
 											temp->scale.Set(3, 3, 1);
 											temp->existtimer = 60 * dt;
+											go2->hp -= bulletdmg / 2;
 										}
 										else
 										{
@@ -964,7 +965,7 @@ void SceneAsteroid::Update(double dt)
 								}
 							}
 						}
-						if (homing == true)
+						if (homing == true && go->isblackholebullet == false)
 						{
 							float dist = 0.f;
 							Vector3 temp = NULL;
@@ -994,7 +995,7 @@ void SceneAsteroid::Update(double dt)
 					if (go->type == GameObject::GO_BLACKHOLE)
 					{
 						blackholeElapsed -= dt;
-						if (go->pos.x > m_worldWidth + bounds || go->pos.x < 0 - bounds || go->pos.y > m_worldHeight + bounds || go->pos.y < 0 - bounds)
+						if (go->pos.x > m_worldWidth + bounds + (m_player->pos.x - (m_worldWidth / 2)) || go->pos.x < 0 - bounds + (m_player->pos.x - (m_worldWidth / 2)) || go->pos.y > m_worldHeight + bounds + (m_player->pos.y - (m_worldHeight / 2)) || go->pos.y < 0 - bounds + (m_player->pos.y - (m_worldHeight / 2)))
 						{
 							go->active = false;
 							continue;
@@ -1035,7 +1036,7 @@ void SceneAsteroid::Update(double dt)
 											blackholeElapsed = 10 * dt;
 										}
 									}
-									else if (go2->type == GameObject::GO_BULLET)
+									else if (go2->type == GameObject::GO_BULLET || go2->type == GameObject::GO_FEATHER)
 									{
 										go2->active = false;
 									}
