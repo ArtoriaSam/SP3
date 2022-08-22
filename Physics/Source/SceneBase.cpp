@@ -126,6 +126,8 @@ void SceneBase::Init()
 	meshList[GEO_HARPY]->textureID = LoadTGA("Image//harpy.tga");
 	meshList[GEO_FEATHER] = MeshBuilder::GenerateQuad("feather", Color(1, 1, 1), 2.f);
 	meshList[GEO_FEATHER]->textureID = LoadTGA("Image//feather.tga");
+	meshList[GEO_BACKGROUND] = MeshBuilder::GenerateQuad("background", Color(1, 1, 1), 1.f);
+	meshList[GEO_BACKGROUND]->textureID = LoadTGA("Image//grass1.tga");
 
 	bLightEnabled = false;
 }

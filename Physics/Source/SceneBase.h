@@ -58,6 +58,7 @@ public:
 		GEO_BEAR,
 		GEO_HARPY,
 		GEO_FEATHER,
+		GEO_BACKGROUND,
 		NUM_GEOMETRY,
 	};
 public:

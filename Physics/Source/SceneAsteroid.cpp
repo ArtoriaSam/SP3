@@ -176,7 +176,7 @@ void SceneAsteroid::Update(double dt)
 							GameObject* go = FetchGO();
 							go->type = GameObject::GO_GOBLIN;
 							go->speed = 0.5 + (multiplier * 0.05);
-							go->hp = 2 + (2 * (multiplier * 1.1) - 2);
+							go->hp = 2 + (multiplier * 0.5) ;
 							go->points = 20 + (multiplier * 5);
 							go->dmg = 1 + (multiplier * 0.5);
 							go->atkspeed = 1.5;
@@ -196,7 +196,7 @@ void SceneAsteroid::Update(double dt)
 							{
 								go->type = GameObject::GO_GOBLIN;
 								go->speed = 0.5 + (multiplier * 0.05);
-								go->hp = 2 + (2 * (multiplier * 1.1) - 2);
+								go->hp = 2 + (multiplier * 0.5);
 								go->points = 20 + (multiplier * 5);
 								go->dmg = 1 + (multiplier * 0.5);
 								go->atkspeed = 1.5;
@@ -206,7 +206,7 @@ void SceneAsteroid::Update(double dt)
 							{
 								go->type = GameObject::GO_WOLF;
 								go->speed = 2 + (multiplier * 0.05);
-								go->hp = 4 + (4 * (multiplier * 1.1) - 4);
+								go->hp = 4 + (multiplier * 0.5);
 								go->points = 30 + (multiplier * 5);
 								go->dmg = 2 + (multiplier * 0.5);
 								go->atkspeed = 1.5;
@@ -228,7 +228,7 @@ void SceneAsteroid::Update(double dt)
 							{
 								go->type = GameObject::GO_GOBLIN;
 								go->speed = 0.5 + (multiplier * 0.05);
-								go->hp = 2 + (2 * (multiplier * 1.1) - 2);
+								go->hp = 2 + (multiplier * 0.5);
 								go->points = 20 + (multiplier * 5);
 								go->dmg = 1 + (multiplier * 0.5);
 								go->atkspeed = 1.5;
@@ -238,7 +238,7 @@ void SceneAsteroid::Update(double dt)
 							{
 								go->type = GameObject::GO_WOLF;
 								go->speed = 2 + (multiplier * 0.05);
-								go->hp = 4 + (4 * (multiplier * 1.1) - 4);
+								go->hp = 4 + (multiplier * 0.5);
 								go->points = 30 + (multiplier * 5);
 								go->dmg = 2 + (multiplier * 0.5);
 								go->atkspeed = 1.5;
@@ -259,7 +259,7 @@ void SceneAsteroid::Update(double dt)
 							{
 								go->type = GameObject::GO_GOBLIN;
 								go->speed = 0.5 + (multiplier * 0.05);
-								go->hp = 2 + (2 * (multiplier * 1.1) - 2);
+								go->hp = 2 + (multiplier * 0.5);
 								go->points = 20 + (multiplier * 5);
 								go->dmg = 1 + (multiplier * 0.5);
 								go->atkspeed = 1.5;
@@ -269,7 +269,7 @@ void SceneAsteroid::Update(double dt)
 							{
 								go->type = GameObject::GO_HARPY;
 								go->speed = 1 + (multiplier * 0.05);
-								go->hp = 3 + (3 * (multiplier * 1.1) - 3);
+								go->hp = 3 + (multiplier * 0.5);
 								go->points = 30 + (multiplier * 5);
 								go->dmg = 2 + (multiplier * 0.5);
 								go->atkspeed = 2;
@@ -290,7 +290,7 @@ void SceneAsteroid::Update(double dt)
 							{
 								go->type = GameObject::GO_GOBLIN;
 								go->speed = 0.5 + (multiplier * 0.05);
-								go->hp = 2 + (2 * (multiplier * 1.1) - 2);
+								go->hp = 2 + (multiplier * 0.5);
 								go->points = 20 + (multiplier * 5);
 								go->dmg = 1 + (multiplier * 0.5);
 								go->atkspeed = 1.5;
@@ -300,7 +300,7 @@ void SceneAsteroid::Update(double dt)
 							{
 								go->type = GameObject::GO_BEAR;
 								go->speed = 0.5 + (multiplier * 0.05);
-								go->hp = 10 + (10 * (multiplier * 1.1) - 10);
+								go->hp = 10 + (multiplier * 0.5);
 								go->points = 50 + (multiplier * 5);
 								go->dmg = 5 + (multiplier * 0.5);
 								go->atkspeed = 1;
@@ -319,7 +319,7 @@ void SceneAsteroid::Update(double dt)
 							GameObject* go = FetchGO();
 							go->type = GameObject::GO_GOBLIN;
 							go->speed = 0.5 + (multiplier * 0.05);
-							go->hp = 2 + (2 * (multiplier * 1.1) - 2);
+							go->hp = 2 + (multiplier * 0.5);
 							go->points = 20 + (multiplier * 5);
 							go->dmg = 1 + (multiplier * 0.5);
 							go->atkspeed = 1.5;
@@ -339,7 +339,7 @@ void SceneAsteroid::Update(double dt)
 							{
 								go->type = GameObject::GO_GOBLIN;
 								go->speed = 0.5 + (multiplier * 0.05);
-								go->hp = 2 + (2 * (multiplier * 1.1) - 2);
+								go->hp = 2 + (multiplier * 0.5);
 								go->points = 20 + (multiplier * 5);
 								go->dmg = 1 + (multiplier * 0.5);
 								go->atkspeed = 1.5;
@@ -349,7 +349,7 @@ void SceneAsteroid::Update(double dt)
 							{
 								go->type = GameObject::GO_WOLF;
 								go->speed = 2 + (multiplier * 0.05);
-								go->hp = 4 + (4 * (multiplier * 1.1) - 4);
+								go->hp = 4 + (multiplier * 0.5);
 								go->points = 30 + (multiplier * 5);
 								go->dmg = 2 + (multiplier * 0.5);
 								go->atkspeed = 1.5;
@@ -370,7 +370,7 @@ void SceneAsteroid::Update(double dt)
 							{
 								go->type = GameObject::GO_GOBLIN;
 								go->speed = 0.5 + (multiplier * 0.05);
-								go->hp = 2 + (2 * (multiplier * 1.1) - 2);
+								go->hp = 2 + (multiplier * 0.5);
 								go->points = 20 + (multiplier * 5);
 								go->dmg = 1 + (multiplier * 0.5);
 								go->atkspeed = 1.5;
@@ -380,7 +380,7 @@ void SceneAsteroid::Update(double dt)
 							{
 								go->type = GameObject::GO_WOLF;
 								go->speed = 2 + (multiplier * 0.05);
-								go->hp = 4 + (4 * (multiplier * 1.1) - 4);
+								go->hp = 4 + (multiplier * 0.5);
 								go->points = 30 + (multiplier * 5);
 								go->dmg = 2 + (multiplier * 0.5);
 								go->atkspeed = 1.5;
@@ -401,7 +401,7 @@ void SceneAsteroid::Update(double dt)
 							{
 								go->type = GameObject::GO_GOBLIN;
 								go->speed = 0.5 + (multiplier * 0.05);
-								go->hp = 2 + (2 * (multiplier * 1.1) - 2);
+								go->hp = 2 + (multiplier * 0.5);
 								go->points = 20 + (multiplier * 5);
 								go->dmg = 1 + (multiplier * 0.5);
 								go->atkspeed = 1.5;
@@ -411,7 +411,7 @@ void SceneAsteroid::Update(double dt)
 							{
 								go->type = GameObject::GO_HARPY;
 								go->speed = 1 + (multiplier * 0.05);
-								go->hp = 3 + (3 * (multiplier * 1.1) - 3);
+								go->hp = 3 + (multiplier * 0.5);
 								go->points = 30 + (multiplier * 5);
 								go->dmg = 2 + (multiplier * 0.5);
 								go->atkspeed = 2;
@@ -432,7 +432,7 @@ void SceneAsteroid::Update(double dt)
 							{
 								go->type = GameObject::GO_GOBLIN;
 								go->speed = 0.5 + (multiplier * 0.05);
-								go->hp = 2 + (2 * (multiplier * 1.1) - 2);
+								go->hp = 2 + (multiplier * 0.5);
 								go->points = 20 + (multiplier * 5);
 								go->dmg = 1 + (multiplier * 0.5);
 								go->atkspeed = 1.5;
@@ -442,7 +442,7 @@ void SceneAsteroid::Update(double dt)
 							{
 								go->type = GameObject::GO_WOLF;
 								go->speed = 2 + (multiplier * 0.05);
-								go->hp = 4 + (4 * (multiplier * 1.1) - 4);
+								go->hp = 4 + (multiplier * 0.5);
 								go->points = 30 + (multiplier * 5);
 								go->dmg = 2 + (multiplier * 0.5);
 								go->atkspeed = 1.5;
@@ -452,7 +452,7 @@ void SceneAsteroid::Update(double dt)
 							{
 								go->type = GameObject::GO_HARPY;
 								go->speed = 1 + (multiplier * 0.05);
-								go->hp = 3 + (3 * (multiplier * 1.1) - 3);
+								go->hp = 3 + (multiplier * 0.5);
 								go->points = 30 + (multiplier * 5);
 								go->dmg = 2 + (multiplier * 0.5);
 								go->atkspeed = 2;
@@ -462,7 +462,7 @@ void SceneAsteroid::Update(double dt)
 							{
 								go->type = GameObject::GO_BEAR;
 								go->speed = 0.5 + (multiplier * 0.05);
-								go->hp = 10 + (10 * (multiplier * 1.1) - 10);
+								go->hp = 10 + (multiplier * 0.5);
 								go->points = 50 + (multiplier * 5);
 								go->dmg = 5 + (multiplier * 0.5);
 								go->atkspeed = 1;
@@ -1431,7 +1431,12 @@ void SceneAsteroid::Render()
 	std::ostringstream ss;
 	if (gamemenu == true)
 	{
-		RenderMesh(meshList[GEO_AXES], false);
+		//RenderMesh(meshList[GEO_AXES], false);
+		modelStack.PushMatrix();
+		modelStack.Translate(m_player->pos.x, m_player->pos.y, -1);
+		modelStack.Scale(m_worldWidth, m_worldHeight, 1);
+		RenderMesh(meshList[GEO_BACKGROUND], false);
+		modelStack.PopMatrix();
 		if (m_player->active)
 			RenderGO(m_player);
 		int noofobj = 1;
