@@ -130,16 +130,37 @@ void SceneAsteroid::Update(double dt)
 				pause = false;
 		}
 
-		static bool bUState = false;
-		if (bUState == false && Application::IsKeyPressed('U'))
+		static bool bFState = false;
+		if (bFState == false && Application::IsKeyPressed('F'))
 		{
-			bUState = true;
+			bFState = true;
 		}
-		if (bUState == true && !Application::IsKeyPressed('U'))
+		if (bFState == true && !Application::IsKeyPressed('F'))
 		{
-			bUState = false;
+			bFState = false;
 			gamemenu = false;
 			upgrademenu = true;
+		}
+
+
+		static bool bRState = false;
+		if (bRState == false && Application::IsKeyPressed('R'))
+		{
+			bRState = true;
+		}
+		if (bRState == true && !Application::IsKeyPressed('R'))
+		{
+			bRState = false;
+			for (std::vector<GameObject*>::iterator it = m_goList.begin(); it != m_goList.end(); ++it)
+			{
+				GameObject* go = (GameObject*)*it;
+				if (go->active)
+				{
+					go->active = false;
+				}
+			}
+			gamemenu = false;
+			mainmenu = true;
 		}
 
 	    static bool bVState = false;
@@ -153,169 +174,44 @@ void SceneAsteroid::Update(double dt)
 			if (testmode == true)
 			{
 				m_player->active = true;
-				HP = 10;
+				HP = MaxHP;
 			}
 		}
 		if (m_player->active && pause == false)
 		{
-			if (testmode == false)
+			if (waveclear == true)
 			{
-				if (waveclear == true)
+				waveclear = false;
+				wave++;
+				if (wave > 10)
 				{
-					waveclear = false;
-					wave++;
-					if (wave > 10)
+					multiplier++;
+				}
+				if (wave == 1 || (wave - 1) % 10 == 0)
+				{
+					for (int i = 0; i < 5; i++)
 					{
-						multiplier++;
+						GameObject* go = FetchGO();
+						go->type = GameObject::GO_GOBLIN;
+						go->speed = 0.5 + (multiplier * 0.05);
+						go->hp = 2 + (multiplier * 0.5);
+						go->points = 20 + (multiplier * 5);
+						go->dmg = 1 + (multiplier * 0.5);
+						go->atkspeed = 0.0667f;
+						go->range = 1;
+						go->state = CHASE;
+						go->elapsedtime = 0.0f;
+						go->scale.Set(scale, scale, 1);
+						SpawnEnemy(go);
 					}
-					if (wave == 1 || (wave - 1) % 10 == 0)
+				}
+				else if (wave == 2 || (wave - 2) % 10 == 0)
+				{
+					for (int i = 0; i < 6; i++)
 					{
-						for (int i = 0; i < 5; i++)
+						GameObject* go = FetchGO();
+						if (i < 4)
 						{
-							GameObject* go = FetchGO();
-							go->type = GameObject::GO_GOBLIN;
-							go->speed = 0.5 + (multiplier * 0.05);
-							go->hp = 2 + (multiplier * 0.5) ;
-							go->points = 20 + (multiplier * 5);
-							go->dmg = 1 + (multiplier * 0.5);
-							go->atkspeed = 0.0667f;
-							go->range = 1;
-							go->state = CHASE;
-							go->elapsedtime = 0.0f;
-							go->scale.Set(scale, scale, 1);
-							SpawnEnemy(go);
-						}
-					}
-					else if (wave == 2 || (wave - 2) % 10 == 0)
-					{
-						for (int i = 0; i < 6; i++)
-						{
-							GameObject* go = FetchGO();
-							if (i < 4)
-							{
-								go->type = GameObject::GO_GOBLIN;
-								go->speed = 0.5 + (multiplier * 0.05);
-								go->hp = 2 + (multiplier * 0.5);
-								go->points = 20 + (multiplier * 5);
-								go->dmg = 1 + (multiplier * 0.5);
-								go->atkspeed = 0.0667f;
-								go->range = 1;
-							}
-							else
-							{
-								go->type = GameObject::GO_WOLF;
-								go->speed = 2 + (multiplier * 0.05);
-								go->hp = 4 + (multiplier * 0.5);
-								go->points = 30 + (multiplier * 5);
-								go->dmg = 2 + (multiplier * 0.5);
-								go->atkspeed = 0.1f;
-								go->range = 1;
-							}
-							go->state = CHASE;
-							go->elapsedtime = 0.0f;
-							go->scale.Set(scale, scale, 1);
-							SpawnEnemy(go);
-						}
-
-					}
-					else if (wave == 3 || (wave - 3) % 10 == 0)
-					{
-						for (int i = 0; i < 10; i++)
-						{
-							GameObject* go = FetchGO();
-							if (i < 6)
-							{
-								go->type = GameObject::GO_GOBLIN;
-								go->speed = 0.5 + (multiplier * 0.05);
-								go->hp = 2 + (multiplier * 0.5);
-								go->points = 20 + (multiplier * 5);
-								go->dmg = 1 + (multiplier * 0.5);
-								go->atkspeed = 0.0667f;
-								go->range = 1;
-							}
-							else
-							{
-								go->type = GameObject::GO_WOLF;
-								go->speed = 2 + (multiplier * 0.05);
-								go->hp = 4 + (multiplier * 0.5);
-								go->points = 30 + (multiplier * 5);
-								go->dmg = 2 + (multiplier * 0.5);
-								go->atkspeed = 0.1f;
-								go->range = 1;
-							}
-							go->state = CHASE;
-							go->elapsedtime = 0.0f;
-							go->scale.Set(scale, scale, 1);
-							SpawnEnemy(go);
-						}
-					}
-					else if (wave == 4 || (wave - 4) % 10 == 0)
-					{
-						for (int i = 0; i < 11; i++)
-						{
-							GameObject* go = FetchGO();
-							if (i < 10)
-							{
-								go->type = GameObject::GO_GOBLIN;
-								go->speed = 0.5 + (multiplier * 0.05);
-								go->hp = 2 + (multiplier * 0.5);
-								go->points = 20 + (multiplier * 5);
-								go->dmg = 1 + (multiplier * 0.5);
-								go->atkspeed = 0.0667f;
-								go->range = 1;
-							}
-							else
-							{
-								go->type = GameObject::GO_HARPY;
-								go->speed = 1 + (multiplier * 0.05);
-								go->hp = 3 + (multiplier * 0.5);
-								go->points = 30 + (multiplier * 5);
-								go->dmg = 2 + (multiplier * 0.5);
-								go->atkspeed = 0.05;
-								go->range = 10;
-							}
-							go->state = CHASE;
-							go->elapsedtime = 0.0f;
-							go->scale.Set(scale, scale, 1);
-							SpawnEnemy(go);
-						}
-					}
-					else if (wave == 5 || (wave - 5) % 10 == 0)
-					{
-						for (int i = 0; i < 11; i++)
-						{
-							GameObject* go = FetchGO();
-							if (i < 10)
-							{
-								go->type = GameObject::GO_GOBLIN;
-								go->speed = 0.5 + (multiplier * 0.05);
-								go->hp = 2 + (multiplier * 0.5);
-								go->points = 20 + (multiplier * 5);
-								go->dmg = 1 + (multiplier * 0.5);
-								go->atkspeed = 0.0667f;
-								go->range = 1;
-							}
-							else
-							{
-								go->type = GameObject::GO_BEAR;
-								go->speed = 0.5 + (multiplier * 0.05);
-								go->hp = 10 + (multiplier * 0.5);
-								go->points = 50 + (multiplier * 5);
-								go->dmg = 5 + (multiplier * 0.5);
-								go->atkspeed = 0.05;
-								go->range = 1;
-							}
-							go->state = CHASE;
-							go->elapsedtime = 0.0f;
-							go->scale.Set(scale, scale, 1);
-							SpawnEnemy(go);
-						}
-					}
-					else if (wave == 6 || (wave - 6) % 10 == 0)
-					{
-						for (int i = 0; i < 20; i++)
-						{
-							GameObject* go = FetchGO();
 							go->type = GameObject::GO_GOBLIN;
 							go->speed = 0.5 + (multiplier * 0.05);
 							go->hp = 2 + (multiplier * 0.5);
@@ -323,155 +219,277 @@ void SceneAsteroid::Update(double dt)
 							go->dmg = 1 + (multiplier * 0.5);
 							go->atkspeed = 0.0667f;
 							go->range = 1;
-							go->state = CHASE;
-							go->elapsedtime = 0.0f;
-							go->scale.Set(scale, scale, 1);
-							SpawnEnemy(go);
 						}
-					}
-					else if (wave == 7 || (wave - 7) % 10 == 0)
-					{
-						for (int i = 0; i < 16; i++)
+						else
 						{
-							GameObject* go = FetchGO();
-							if (i < 10)
-							{
-								go->type = GameObject::GO_GOBLIN;
-								go->speed = 0.5 + (multiplier * 0.05);
-								go->hp = 2 + (multiplier * 0.5);
-								go->points = 20 + (multiplier * 5);
-								go->dmg = 1 + (multiplier * 0.5);
-								go->atkspeed = 0.0667f;
-								go->range = 1;
-							}
-							else
-							{
-								go->type = GameObject::GO_WOLF;
-								go->speed = 2 + (multiplier * 0.05);
-								go->hp = 4 + (multiplier * 0.5);
-								go->points = 30 + (multiplier * 5);
-								go->dmg = 2 + (multiplier * 0.5);
-								go->atkspeed = 0.1f;
-								go->range = 1;
-							}
-							go->state = CHASE;
-							go->elapsedtime = 0.0f;
-							go->scale.Set(scale, scale, 1);
-							SpawnEnemy(go);
+							go->type = GameObject::GO_WOLF;
+							go->speed = 2 + (multiplier * 0.05);
+							go->hp = 4 + (multiplier * 0.5);
+							go->points = 30 + (multiplier * 5);
+							go->dmg = 2 + (multiplier * 0.5);
+							go->atkspeed = 0.1f;
+							go->range = 1;
 						}
+						go->state = CHASE;
+						go->elapsedtime = 0.0f;
+						go->scale.Set(scale, scale, 1);
+						SpawnEnemy(go);
 					}
-					else if (wave == 8 || (wave - 8) % 10 == 0)
+
+				}
+				else if (wave == 3 || (wave - 3) % 10 == 0)
+				{
+					for (int i = 0; i < 10; i++)
 					{
-						for (int i = 0; i < 23; i++)
+						GameObject* go = FetchGO();
+						if (i < 6)
 						{
-							GameObject* go = FetchGO();
-							if (i < 15)
-							{
-								go->type = GameObject::GO_GOBLIN;
-								go->speed = 0.5 + (multiplier * 0.05);
-								go->hp = 2 + (multiplier * 0.5);
-								go->points = 20 + (multiplier * 5);
-								go->dmg = 1 + (multiplier * 0.5);
-								go->atkspeed = 0.0667f;
-								go->range = 1;
-							}
-							else
-							{
-								go->type = GameObject::GO_WOLF;
-								go->speed = 2 + (multiplier * 0.05);
-								go->hp = 4 + (multiplier * 0.5);
-								go->points = 30 + (multiplier * 5);
-								go->dmg = 2 + (multiplier * 0.5);
-								go->atkspeed = 0.1f;
-								go->range = 1;
-							}
-							go->state = CHASE;
-							go->elapsedtime = 0.0f;
-							go->scale.Set(scale, scale, 1);
-							SpawnEnemy(go);
+							go->type = GameObject::GO_GOBLIN;
+							go->speed = 0.5 + (multiplier * 0.05);
+							go->hp = 2 + (multiplier * 0.5);
+							go->points = 20 + (multiplier * 5);
+							go->dmg = 1 + (multiplier * 0.5);
+							go->atkspeed = 0.0667f;
+							go->range = 1;
 						}
+						else
+						{
+							go->type = GameObject::GO_WOLF;
+							go->speed = 2 + (multiplier * 0.05);
+							go->hp = 4 + (multiplier * 0.5);
+							go->points = 30 + (multiplier * 5);
+							go->dmg = 2 + (multiplier * 0.5);
+							go->atkspeed = 0.1f;
+							go->range = 1;
+						}
+						go->state = CHASE;
+						go->elapsedtime = 0.0f;
+						go->scale.Set(scale, scale, 1);
+						SpawnEnemy(go);
 					}
-					else if (wave == 9 || (wave - 9) % 10 == 0)
+				}
+				else if (wave == 4 || (wave - 4) % 10 == 0)
+				{
+					for (int i = 0; i < 11; i++)
 					{
-						for (int i = 0; i < 33; i++)
+						GameObject* go = FetchGO();
+						if (i < 10)
 						{
-							GameObject* go = FetchGO();
-							if (i < 30)
-							{
-								go->type = GameObject::GO_GOBLIN;
-								go->speed = 0.5 + (multiplier * 0.05);
-								go->hp = 2 + (multiplier * 0.5);
-								go->points = 20 + (multiplier * 5);
-								go->dmg = 1 + (multiplier * 0.5);
-								go->atkspeed = 0.0667f;
-								go->range = 1;
-							}
-							else
-							{
-								go->type = GameObject::GO_HARPY;
-								go->speed = 1 + (multiplier * 0.05);
-								go->hp = 3 + (multiplier * 0.5);
-								go->points = 30 + (multiplier * 5);
-								go->dmg = 2 + (multiplier * 0.5);
-								go->atkspeed = 0.05;
-								go->range = 10;
-							}
-							go->state = CHASE;
-							go->elapsedtime = 0.0f;
-							go->scale.Set(scale, scale, 1);
-							SpawnEnemy(go);
+							go->type = GameObject::GO_GOBLIN;
+							go->speed = 0.5 + (multiplier * 0.05);
+							go->hp = 2 + (multiplier * 0.5);
+							go->points = 20 + (multiplier * 5);
+							go->dmg = 1 + (multiplier * 0.5);
+							go->atkspeed = 0.0667f;
+							go->range = 1;
 						}
+						else
+						{
+							go->type = GameObject::GO_HARPY;
+							go->speed = 1 + (multiplier * 0.05);
+							go->hp = 3 + (multiplier * 0.5);
+							go->points = 30 + (multiplier * 5);
+							go->dmg = 2 + (multiplier * 0.5);
+							go->atkspeed = 0.05;
+							go->range = 10;
+						}
+						go->state = CHASE;
+						go->elapsedtime = 0.0f;
+						go->scale.Set(scale, scale, 1);
+						SpawnEnemy(go);
 					}
-					else if (wave == 10 || (wave - 10) % 10 == 0)
+				}
+				else if (wave == 5 || (wave - 5) % 10 == 0)
+				{
+					for (int i = 0; i < 11; i++)
 					{
-						for (int i = 0; i < 29; i++)
+						GameObject* go = FetchGO();
+						if (i < 10)
 						{
-							GameObject* go = FetchGO();
-							if (i < 20)
-							{
-								go->type = GameObject::GO_GOBLIN;
-								go->speed = 0.5 + (multiplier * 0.05);
-								go->hp = 2 + (multiplier * 0.5);
-								go->points = 20 + (multiplier * 5);
-								go->dmg = 1 + (multiplier * 0.5);
-								go->atkspeed = 0.0667f;
-								go->range = 1;
-							}
-							else if (i > 19 && 1 < 24)
-							{
-								go->type = GameObject::GO_WOLF;
-								go->speed = 2 + (multiplier * 0.05);
-								go->hp = 4 + (multiplier * 0.5);
-								go->points = 30 + (multiplier * 5);
-								go->dmg = 2 + (multiplier * 0.5);
-								go->atkspeed = 0.1f;
-								go->range = 1;
-							}
-							else if (i > 23 && i < 26)
-							{
-								go->type = GameObject::GO_HARPY;
-								go->speed = 1 + (multiplier * 0.05);
-								go->hp = 3 + (multiplier * 0.5);
-								go->points = 30 + (multiplier * 5);
-								go->dmg = 2 + (multiplier * 0.5);
-								go->atkspeed = 0.05;
-								go->range = 10;
-							}
-							else
-							{
-								go->type = GameObject::GO_BEAR;
-								go->speed = 0.5 + (multiplier * 0.05);
-								go->hp = 10 + (multiplier * 0.5);
-								go->points = 50 + (multiplier * 5);
-								go->dmg = 5 + (multiplier * 0.5);
-								go->atkspeed = 0.05;
-								go->range = 1;
-							}
-							go->state = CHASE;
-							go->elapsedtime = 0.0f;
-							go->scale.Set(scale, scale, 1);
-							SpawnEnemy(go);
+							go->type = GameObject::GO_GOBLIN;
+							go->speed = 0.5 + (multiplier * 0.05);
+							go->hp = 2 + (multiplier * 0.5);
+							go->points = 20 + (multiplier * 5);
+							go->dmg = 1 + (multiplier * 0.5);
+							go->atkspeed = 0.0667f;
+							go->range = 1;
 						}
+						else
+						{
+							go->type = GameObject::GO_BEAR;
+							go->speed = 0.5 + (multiplier * 0.05);
+							go->hp = 10 + (multiplier * 0.5);
+							go->points = 50 + (multiplier * 5);
+							go->dmg = 5 + (multiplier * 0.5);
+							go->atkspeed = 0.05;
+							go->range = 1;
+						}
+						go->state = CHASE;
+						go->elapsedtime = 0.0f;
+						go->scale.Set(scale, scale, 1);
+						SpawnEnemy(go);
+					}
+				}
+				else if (wave == 6 || (wave - 6) % 10 == 0)
+				{
+					for (int i = 0; i < 20; i++)
+					{
+						GameObject* go = FetchGO();
+						go->type = GameObject::GO_GOBLIN;
+						go->speed = 0.5 + (multiplier * 0.05);
+						go->hp = 2 + (multiplier * 0.5);
+						go->points = 20 + (multiplier * 5);
+						go->dmg = 1 + (multiplier * 0.5);
+						go->atkspeed = 0.0667f;
+						go->range = 1;
+						go->state = CHASE;
+						go->elapsedtime = 0.0f;
+						go->scale.Set(scale, scale, 1);
+						SpawnEnemy(go);
+					}
+				}
+				else if (wave == 7 || (wave - 7) % 10 == 0)
+				{
+					for (int i = 0; i < 16; i++)
+					{
+						GameObject* go = FetchGO();
+						if (i < 10)
+						{
+							go->type = GameObject::GO_GOBLIN;
+							go->speed = 0.5 + (multiplier * 0.05);
+							go->hp = 2 + (multiplier * 0.5);
+							go->points = 20 + (multiplier * 5);
+							go->dmg = 1 + (multiplier * 0.5);
+							go->atkspeed = 0.0667f;
+							go->range = 1;
+						}
+						else
+						{
+							go->type = GameObject::GO_WOLF;
+							go->speed = 2 + (multiplier * 0.05);
+							go->hp = 4 + (multiplier * 0.5);
+							go->points = 30 + (multiplier * 5);
+							go->dmg = 2 + (multiplier * 0.5);
+							go->atkspeed = 0.1f;
+							go->range = 1;
+						}
+						go->state = CHASE;
+						go->elapsedtime = 0.0f;
+						go->scale.Set(scale, scale, 1);
+						SpawnEnemy(go);
+					}
+				}
+				else if (wave == 8 || (wave - 8) % 10 == 0)
+				{
+					for (int i = 0; i < 23; i++)
+					{
+						GameObject* go = FetchGO();
+						if (i < 15)
+						{
+							go->type = GameObject::GO_GOBLIN;
+							go->speed = 0.5 + (multiplier * 0.05);
+							go->hp = 2 + (multiplier * 0.5);
+							go->points = 20 + (multiplier * 5);
+							go->dmg = 1 + (multiplier * 0.5);
+							go->atkspeed = 0.0667f;
+							go->range = 1;
+						}
+						else
+						{
+							go->type = GameObject::GO_WOLF;
+							go->speed = 2 + (multiplier * 0.05);
+							go->hp = 4 + (multiplier * 0.5);
+							go->points = 30 + (multiplier * 5);
+							go->dmg = 2 + (multiplier * 0.5);
+							go->atkspeed = 0.1f;
+							go->range = 1;
+						}
+						go->state = CHASE;
+						go->elapsedtime = 0.0f;
+						go->scale.Set(scale, scale, 1);
+						SpawnEnemy(go);
+					}
+				}
+				else if (wave == 9 || (wave - 9) % 10 == 0)
+				{
+					for (int i = 0; i < 33; i++)
+					{
+						GameObject* go = FetchGO();
+						if (i < 30)
+						{
+							go->type = GameObject::GO_GOBLIN;
+							go->speed = 0.5 + (multiplier * 0.05);
+							go->hp = 2 + (multiplier * 0.5);
+							go->points = 20 + (multiplier * 5);
+							go->dmg = 1 + (multiplier * 0.5);
+							go->atkspeed = 0.0667f;
+							go->range = 1;
+						}
+						else
+						{
+							go->type = GameObject::GO_HARPY;
+							go->speed = 1 + (multiplier * 0.05);
+							go->hp = 3 + (multiplier * 0.5);
+							go->points = 30 + (multiplier * 5);
+							go->dmg = 2 + (multiplier * 0.5);
+							go->atkspeed = 0.05;
+							go->range = 10;
+						}
+						go->state = CHASE;
+						go->elapsedtime = 0.0f;
+						go->scale.Set(scale, scale, 1);
+						SpawnEnemy(go);
+					}
+				}
+				else if (wave == 10 || (wave - 10) % 10 == 0)
+				{
+					for (int i = 0; i < 29; i++)
+					{
+						GameObject* go = FetchGO();
+						if (i < 20)
+						{
+							go->type = GameObject::GO_GOBLIN;
+							go->speed = 0.5 + (multiplier * 0.05);
+							go->hp = 2 + (multiplier * 0.5);
+							go->points = 20 + (multiplier * 5);
+							go->dmg = 1 + (multiplier * 0.5);
+							go->atkspeed = 0.0667f;
+							go->range = 1;
+						}
+						else if (i > 19 && 1 < 24)
+						{
+							go->type = GameObject::GO_WOLF;
+							go->speed = 2 + (multiplier * 0.05);
+							go->hp = 4 + (multiplier * 0.5);
+							go->points = 30 + (multiplier * 5);
+							go->dmg = 2 + (multiplier * 0.5);
+							go->atkspeed = 0.1f;
+							go->range = 1;
+						}
+						else if (i > 23 && i < 26)
+						{
+							go->type = GameObject::GO_HARPY;
+							go->speed = 1 + (multiplier * 0.05);
+							go->hp = 3 + (multiplier * 0.5);
+							go->points = 30 + (multiplier * 5);
+							go->dmg = 2 + (multiplier * 0.5);
+							go->atkspeed = 0.05;
+							go->range = 10;
+						}
+						else
+						{
+							go->type = GameObject::GO_BEAR;
+							go->speed = 0.5 + (multiplier * 0.05);
+							go->hp = 10 + (multiplier * 0.5);
+							go->points = 50 + (multiplier * 5);
+							go->dmg = 5 + (multiplier * 0.5);
+							go->atkspeed = 0.05;
+							go->range = 1;
+						}
+						go->state = CHASE;
+						go->elapsedtime = 0.0f;
+						go->scale.Set(scale, scale, 1);
+						SpawnEnemy(go);
 					}
 				}
 			}
@@ -591,94 +609,6 @@ void SceneAsteroid::Update(double dt)
 						m_tempscore = 0;
 					}
 				}
-				//Exercise 11: use a key to spawn some asteroids
-				static bool bRState = false;
-				if (bRState == false && Application::IsKeyPressed('R'))
-				{
-					bRState = true;
-				}
-				if (bRState == true && !Application::IsKeyPressed('R'))
-				{
-					bRState = false;
-					for (int i = 0; i < 25; ++i)
-					{
-						//Create
-						int tempscale = rand() % 3 + 1;
-						GameObject* go = FetchGO();
-						go->type = GameObject::GO_ASTEROID;
-						go->pos.Set(Math::RandFloatMinMax(0, m_worldWidth), Math::RandFloatMinMax(0, m_worldHeight), go->pos.z);
-						go->vel.Set(Math::RandFloatMinMax(-20, 20), Math::RandFloatMinMax(-20, 20), 0);
-						go->scale.Set(tempscale, tempscale, 1);
-					}
-				}
-				static bool bTState = false;
-				if (bTState == false && Application::IsKeyPressed('T'))
-				{
-					bTState = true;
-				}
-				if (bTState == true && !Application::IsKeyPressed('T'))
-				{
-					bTState = false;
-					for (int i = 0; i < 25; ++i)
-					{
-						//Create
-						int tempscale = rand() % 3 + 1;
-						GameObject* go = FetchGO();
-						go->type = GameObject::GO_BLACKHOLE;
-						go->pos.Set(Math::RandFloatMinMax(0, m_worldWidth), Math::RandFloatMinMax(0, m_worldHeight), go->pos.z);
-						go->vel.Set(Math::RandFloatMinMax(-20, 20), Math::RandFloatMinMax(-20, 20), 0);
-						go->scale.Set(tempscale, tempscale, 1);
-					}
-				}
-				static bool bYState = false;
-				if (bYState == false && Application::IsKeyPressed('Y'))
-				{
-					bYState = true;
-				}
-				if (bYState == true && !Application::IsKeyPressed('Y'))
-				{
-					bYState = false;
-					for (int i = 0; i < 25; ++i)
-					{
-						//Create
-						int tempscale = rand() % 3 + 1;
-						GameObject* go = FetchGO();
-						go->type = GameObject::GO_WHITEHOLE;
-						go->pos.Set(Math::RandFloatMinMax(0, m_worldWidth), Math::RandFloatMinMax(0, m_worldHeight), go->pos.z);
-						go->vel.Set(Math::RandFloatMinMax(-20, 20), Math::RandFloatMinMax(-20, 20), 0);
-						go->scale.Set(tempscale, tempscale, 1);
-					}
-				}
-				static bool bZState = false;
-				if (bZState == false && Application::IsKeyPressed('Z'))
-				{
-					bZState = true;
-				}
-				if (bZState == true && !Application::IsKeyPressed('Z'))
-				{
-					bZState = false;
-					//Create
-					GameObject* go = FetchGO();
-					go->type = GameObject::GO_BLACKHOLE;
-					go->pos.Set(m_worldWidth / 2 - 25, m_worldHeight / 2, go->pos.z);
-					go->vel.Set(0, 0, 0);
-					go->scale.Set(3, 3, 1);
-				}
-				static bool bXState = false;
-				if (bXState == false && Application::IsKeyPressed('X'))
-				{
-					bXState = true;
-				}
-				if (bXState == true && !Application::IsKeyPressed('X'))
-				{
-					bXState = false;
-					//Create
-					GameObject* go = FetchGO();
-					go->type = GameObject::GO_WHITEHOLE;
-					go->pos.Set(m_worldWidth / 2 + 25, m_worldHeight / 2, go->pos.z);
-					go->vel.Set(0, 0, 0);
-					go->scale.Set(3, 3, 1);
-				}
 			}
 			static bool bQState = false;
 			if (bQState == false && Application::IsKeyPressed('Q'))
@@ -713,25 +643,17 @@ void SceneAsteroid::Update(double dt)
 					bullettype++;
 				}
 			}
-			static bool bFState = false;
-			if (bFState == false && Application::IsKeyPressed('F'))
+			static bool bTState = false;
+			if (bTState == false && Application::IsKeyPressed('T'))
 			{
-				bFState = true;
+				bTState = true;
 			}
-			if (bFState == true && !Application::IsKeyPressed('F'))
+			if (bTState == true && !Application::IsKeyPressed('T'))
 			{
-				bFState = false;
+				bTState = false;
 				if (testmode == false)
 				{
 					testmode = true;
-					for (std::vector<GameObject*>::iterator it = m_goList.begin(); it != m_goList.end(); ++it)
-					{
-						GameObject* go = (GameObject*)*it;
-						if (go->active)
-						{
-							go->active = false;
-						}
-					}
 				}
 				else if (testmode == true)
 				{
@@ -1327,14 +1249,14 @@ void SceneAsteroid::Update(double dt)
 		bRightState = false;
 	}
 
-	static bool bUState = false;
-	if (bUState == false && Application::IsKeyPressed('U'))
+	static bool bFState = false;
+	if (bFState == false && Application::IsKeyPressed('F'))
 	{
-		bUState = true;
+		bFState = true;
 	}
-	if (bUState == true && !Application::IsKeyPressed('U'))
+	if (bFState == true && !Application::IsKeyPressed('F'))
 	{
-		bUState = false;
+		bFState = false;
 		selection = 0;
 		upgrademenu = false;
 		gamemenu = true;
@@ -1537,7 +1459,7 @@ void SceneAsteroid::Render()
 			}
 		}
 		ss.str("");
-		ss << "Nearest enemy: " << temp.x << "," << temp.y;
+		ss << "Nearest enemy: " << (int)temp.x << "," << (int)temp.y;
 		RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(0, 0, 0), 2, 0, 10);
 
 		ss.str("");
@@ -1581,11 +1503,13 @@ void SceneAsteroid::Render()
 		RenderTextOnScreen(meshList[GEO_TEXT], "Controls:", Color(1, 1, 1), 3, (m_worldWidth / 2) - 65, m_worldHeight / 2 - 6);
 		RenderTextOnScreen(meshList[GEO_TEXT], "WASD for movement", Color(1, 1, 1), 3, (m_worldWidth / 2) - 65, m_worldHeight / 2 - 9);
 		RenderTextOnScreen(meshList[GEO_TEXT], "Left Mouse to shoot", Color(1, 1, 1), 3, (m_worldWidth / 2) - 65, m_worldHeight / 2 - 12);
-		RenderTextOnScreen(meshList[GEO_TEXT], "U for shop", Color(1, 1, 1), 3, (m_worldWidth / 2) - 65, m_worldHeight / 2 - 18);
-		RenderTextOnScreen(meshList[GEO_TEXT], "WS or Up/Down Arrow keys", Color(1, 1, 1), 3, (m_worldWidth / 2) - 65, m_worldHeight / 2 - 21);
-		RenderTextOnScreen(meshList[GEO_TEXT], "for shop navigation", Color(1, 1, 1), 3, (m_worldWidth / 2) - 65, m_worldHeight / 2 - 24);
-		RenderTextOnScreen(meshList[GEO_TEXT], "Space to select upgrade", Color(1, 1, 1), 3, (m_worldWidth / 2) - 65, m_worldHeight / 2 - 27);
-		RenderTextOnScreen(meshList[GEO_TEXT], "Press Space to start Game", Color(1, 1, 1), 3, (m_worldWidth / 2) - 65, m_worldHeight / 2 - 33);
+		RenderTextOnScreen(meshList[GEO_TEXT], "Q/E to switch bullet", Color(1, 1, 1), 3, (m_worldWidth / 2) - 65, m_worldHeight / 2 - 15);
+		RenderTextOnScreen(meshList[GEO_TEXT], "F for shop", Color(1, 1, 1), 3, (m_worldWidth / 2) - 65, m_worldHeight / 2 - 21);
+		RenderTextOnScreen(meshList[GEO_TEXT], "W/S or Up/Down Arrow keys", Color(1, 1, 1), 3, (m_worldWidth / 2) - 65, m_worldHeight / 2 - 24);
+		RenderTextOnScreen(meshList[GEO_TEXT], "for shop navigation", Color(1, 1, 1), 3, (m_worldWidth / 2) - 65, m_worldHeight / 2 - 27);
+		RenderTextOnScreen(meshList[GEO_TEXT], "Space to select upgrade", Color(1, 1, 1), 3, (m_worldWidth / 2) - 65, m_worldHeight / 2 - 30);
+		RenderTextOnScreen(meshList[GEO_TEXT], "R to return to main menu", Color(1, 1, 1), 3, (m_worldWidth / 2) - 65, m_worldHeight / 2 - 36);
+		RenderTextOnScreen(meshList[GEO_TEXT], "Press Space to start Game", Color(1, 1, 1), 3, (m_worldWidth / 2) - 65, m_worldHeight / 2 - 42);
 	}
 	else if (gameover == true)
 	{
