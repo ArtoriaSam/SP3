@@ -173,7 +173,6 @@ void SceneAsteroid::Update(double dt)
 			bVState = false;
 			if (testmode == true)
 			{
-				m_player->active = true;
 				HP = MaxHP;
 			}
 		}
@@ -758,7 +757,7 @@ void SceneAsteroid::Update(double dt)
 						{
 							if (godmode == false)
 							{
-								if (go->type == GameObject::GO_HARPY)
+								if (go->type == GameObject::GO_HARPY && go->elapsedtime <= 0.0f)
 									HP -= 1;
 							}
 						}
@@ -830,9 +829,32 @@ void SceneAsteroid::Update(double dt)
 									}
 									else
 									{
-										HP -= go->dmg;
+										if (godmode == false)
+											HP -= go->dmg;
 									}
 								}
+
+								bool blackholed = false;
+								for (std::vector<GameObject*>::iterator it2 = m_goList.begin(); it2 != m_goList.end(); ++it2)
+								{
+									GameObject* go2 = (GameObject*)*it2;
+									if (go2->type == GameObject::GO_BLACKHOLE)
+									{
+										if (go != go2 && go2->active)
+										{
+											float dis = go2->pos.DistanceSquared(go->pos);
+											float rad = (go2->scale.x + go->scale.x) * (go2->scale.x + go->scale.x);
+											if (dis < go2->scale.x * rad * 5)
+											{
+												go->vel = -(go->pos - go2->pos);
+												blackholed = true;
+											}
+										}
+									}
+								}
+								if (blackholed == true)
+									go->pos += go->vel * dt * m_speed * 5;
+
 								break;
 							}
 							case DEATH:
@@ -978,14 +1000,15 @@ void SceneAsteroid::Update(double dt)
 						float rad = (go->scale.x + m_player->scale.x) * (go->scale.x + m_player->scale.x);
 						if (dis < rad)
 						{
-							HP -= go->dmg;
+							if (godmode == false)
+								HP -= go->dmg;
 							go->active = false;
 						}
 					}
 				}
 			}
 			bool clear = true;
-			if (pause == true || testmode == true)
+			if (pause == true)
 				clear = false;
 			for (std::vector<GameObject*>::iterator it = m_goList.begin(); it != m_goList.end(); ++it)
 			{
